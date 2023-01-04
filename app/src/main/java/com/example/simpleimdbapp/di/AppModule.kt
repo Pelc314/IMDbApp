@@ -16,7 +16,7 @@ object AppModule {
     @Singleton
     fun provideIMDbApi(): IMDbApi {
         return Retrofit.Builder()
-            .baseUrl("https://imdb8.p.rapidapi.com/")
+            .baseUrl(IMDbApi.BASE_URL)
             .build()
             .create(IMDbApi::class.java)
     }
