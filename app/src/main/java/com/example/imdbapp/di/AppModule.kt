@@ -1,6 +1,6 @@
-package com.example.simpleimdbapp.di
+package com.example.imdbapp.di
 
-import com.example.simpleimdbapp.data.remote.IMDbApi
+import com.example.imdbapp.data.remote.IMDbApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

@@ -1,4 +1,4 @@
-package com.example.simpleimdbapp
+package com.example.imdbapp
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -11,7 +11,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.simpleimdbapp.ui.theme.SimpleIMDbAppTheme
+import com.example.imdbapp.presentation.MyViewModel
+import com.example.imdbapp.ui.theme.SimpleIMDbAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

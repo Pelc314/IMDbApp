@@ -1,7 +1,7 @@
-package com.example.simpleimdbapp.di
+package com.example.imdbapp.di
 
-import com.example.simpleimdbapp.data.repository.MyRepositoryImpl
-import com.example.simpleimdbapp.domain.repository.MyRepository
+import com.example.imdbapp.data.repository.MyRepositoryImpl
+import com.example.imdbapp.domain.repository.MyRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

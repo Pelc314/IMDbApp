@@ -1,9 +1,9 @@
-package com.example.simpleimdbapp.data.repository
+package com.example.imdbapp.data.repository
 
 import android.app.Application
+import com.example.imdbapp.data.remote.IMDbApi
+import com.example.imdbapp.domain.repository.MyRepository
 import com.example.simpleimdbapp.R
-import com.example.simpleimdbapp.data.remote.IMDbApi
-import com.example.simpleimdbapp.domain.repository.MyRepository
 import javax.inject.Inject
 
 class MyRepositoryImpl @Inject constructor(

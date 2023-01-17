@@ -1,4 +1,4 @@
-package com.example.simpleimdbapp.domain.repository
+package com.example.imdbapp.domain.repository
 
 interface MyRepository {
     suspend fun callMostPopularCelebs()

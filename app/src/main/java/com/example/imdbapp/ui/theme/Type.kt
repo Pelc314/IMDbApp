@@ -1,4 +1,4 @@
-package com.example.simpleimdbapp.ui.theme
+package com.example.imdbapp.ui.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle

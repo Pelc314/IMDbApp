@@ -1,4 +1,4 @@
-package com.example.simpleimdbapp.data.remote
+package com.example.imdbapp.data.remote
 
 import retrofit2.http.GET
 
