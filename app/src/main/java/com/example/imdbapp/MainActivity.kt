@@ -10,9 +10,9 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.imdbapp.presentation.MyViewModel
+import com.example.imdbapp.presentation.NavGraphs
 import com.example.imdbapp.ui.theme.SimpleIMDbAppTheme
+import com.ramcosta.composedestinations.DestinationsNavHost
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -21,12 +21,12 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             SimpleIMDbAppTheme {
-                val viewModel = hiltViewModel<MyViewModel>()
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Greeting("Android")
+                    DestinationsNavHost(navGraph = NavGraphs.root)
+                    Greeting(name = "Android")
                 }
             }
         }

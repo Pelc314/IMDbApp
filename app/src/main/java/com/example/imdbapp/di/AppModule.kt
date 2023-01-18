@@ -6,7 +6,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
-import javax.inject.Named
+import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.create
 import javax.inject.Singleton
 
 @Module
@@ -17,17 +18,8 @@ object AppModule {
     fun provideIMDbApi(): IMDbApi {
         return Retrofit.Builder()
             .baseUrl(IMDbApi.BASE_URL)
+            .addConverterFactory(MoshiConverterFactory.create())
             .build()
-            .create(IMDbApi::class.java)
+            .create()
     }
-
-    @Provides
-    @Singleton
-    @Named("hello1")
-    fun provideString1() = "Hello 1"
-
-    @Provides
-    @Singleton
-    @Named("hello2")
-    fun provideString2() = "Hello 2"
 }
