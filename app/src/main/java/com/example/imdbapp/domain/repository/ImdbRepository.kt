@@ -1,10 +1,10 @@
 package com.example.imdbapp.domain.repository
 
-import com.example.imdbapp.domain.model.MovieItem
-import com.example.imdbapp.util.Resource
+import com.example.imdbapp.core.util.Resource
+import com.example.imdbapp.domain.model.TopMovie
 
 interface ImdbRepository {
     suspend fun callMostPopularCelebs()
 
-    suspend fun getTopRatedMovies(): Resource<List<MovieItem>>
+    suspend fun getTopRatedMovies(): Resource<List<TopMovie>>
 }

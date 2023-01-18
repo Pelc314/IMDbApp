@@ -1,6 +1,6 @@
 package com.example.imdbapp.domain.model
 
-data class MovieItem(
+data class TopMovie(
     val id: String? = null,
     val chartRating: Double? = null
 )

@@ -1,6 +1,6 @@
 package com.example.imdbapp.data.remote
 
-import okhttp3.ResponseBody
+import com.example.imdbapp.data.remote.dto.TopMovieDto
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -13,7 +13,7 @@ interface IMDbApi {
     @GET("title/get-top-rated-movies")
     suspend fun getTopRatedMovies(
         @Query("rapidapi-key") apiKey: String = API_KEY
-    ): TopMoviesListDto
+    ): List<TopMovieDto>
 
     companion object {
         const val BASE_URL = "https://imdb8.p.rapidapi.com/"
