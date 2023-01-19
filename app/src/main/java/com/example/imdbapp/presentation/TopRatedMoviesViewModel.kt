@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.imdbapp.core.util.Resource
 import com.example.imdbapp.domain.repository.ImdbRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -23,7 +24,21 @@ class TopRatedMoviesViewModel @Inject constructor(
 
     private fun getTopRatedMovies() {
         viewModelScope.launch {
-            repository.getTopRatedMovies()
+            repository.getTopRatedMovies().let { result ->
+                when (result) {
+                    is Resource.Success -> {
+                        result.data?.let { topMovies ->
+                            state = state.copy(topRatedMovies = topMovies)
+                        }
+                    }
+                    is Resource.Error -> {
+//                        result.data?.let { state = state.copy() }
+                    }
+                    is Resource.Loading -> {
+                        state = state.copy(isLoading = result.isLoading)
+                    }
+                }
+            }
             Log.e("Top Rated Movies", "${repository.getTopRatedMovies().data}")
         }
     }
