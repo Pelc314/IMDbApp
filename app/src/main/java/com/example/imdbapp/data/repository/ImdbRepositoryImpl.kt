@@ -2,6 +2,7 @@ package com.example.imdbapp.data.repository
 
 import android.app.Application
 import com.example.imdbapp.core.util.Resource
+import com.example.imdbapp.data.mappers.toTopMovie
 import com.example.imdbapp.data.remote.IMDbApi
 import com.example.imdbapp.domain.model.TopMovie
 import com.example.imdbapp.domain.repository.ImdbRepository

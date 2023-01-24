@@ -1,4 +1,4 @@
-package com.example.imdbapp.presentation
+package com.example.imdbapp.presentation.mainscreenwithtopmovies
 
 import com.example.imdbapp.domain.model.TopMovie
 

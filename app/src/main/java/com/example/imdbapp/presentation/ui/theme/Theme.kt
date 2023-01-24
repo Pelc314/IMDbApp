@@ -1,4 +1,4 @@
-package com.example.imdbapp.ui.theme // ktlint-disable filename
+package com.example.imdbapp.presentation.ui.theme // ktlint-disable filename
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme

@@ -1,4 +1,4 @@
-package com.example.imdbapp.presentation
+package com.example.imdbapp.presentation.mainscreenwithtopmovies
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row

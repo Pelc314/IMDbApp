@@ -1,4 +1,4 @@
-package com.example.imdbapp.presentation
+package com.example.imdbapp.presentation.mainscreenwithtopmovies
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
