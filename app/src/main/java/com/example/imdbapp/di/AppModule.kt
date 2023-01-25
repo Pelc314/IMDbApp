@@ -1,5 +1,6 @@
 package com.example.imdbapp.di
 
+import com.example.imdbapp.core.Constants
 import com.example.imdbapp.data.remote.IMDbApi
 import dagger.Module
 import dagger.Provides
@@ -17,7 +18,7 @@ object AppModule {
     @Singleton
     fun provideIMDbApi(): IMDbApi {
         return Retrofit.Builder()
-            .baseUrl(IMDbApi.BASE_URL)
+            .baseUrl(Constants.BASE_URL)
             .addConverterFactory(MoshiConverterFactory.create())
             .build()
             .create()
