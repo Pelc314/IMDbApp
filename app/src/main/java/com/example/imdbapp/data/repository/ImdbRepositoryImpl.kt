@@ -25,6 +25,7 @@ class ImdbRepositoryImpl @Inject constructor(
     override suspend fun getTopRatedMovies(): Flow<Resource<List<TopMovie>>> {
         return flow {
             try {
+                emit(Resource.Loading())
                 val topMovies = api.getTopRatedMovies().map { it.toTopMovie() }
                 emit(Resource.Success(topMovies))
             } catch (e: HttpException) {
