@@ -2,6 +2,8 @@ package com.example.imdbapp.di
 
 import com.example.imdbapp.core.Constants
 import com.example.imdbapp.data.remote.IMDbApi
+import com.example.imdbapp.data.repository.ImdbRepositoryImpl
+import com.example.imdbapp.domain.repository.ImdbRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -23,9 +25,9 @@ object AppModule {
             .create(IMDbApi::class.java)
     }
 
-//    @Provides
-//    @Singleton
-//    fun provideIMDbRepository(api: IMDbApi): ImdbRepository {
-//        return ImdbRepositoryImpl(api)
-//    }
+    @Provides
+    @Singleton
+    fun provideIMDbRepository(api: IMDbApi): ImdbRepository {
+        return ImdbRepositoryImpl(api)
+    }
 }
