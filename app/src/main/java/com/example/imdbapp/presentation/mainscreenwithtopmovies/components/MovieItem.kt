@@ -23,7 +23,7 @@ fun MovieItem(
     ) {
         Column(modifier = modifier) {
             Text(
-                text = "${movie.id}",
+                text = "${movie.title}",
                 color = MaterialTheme.colors.onBackground
             )
             Spacer(modifier = Modifier.height(8.dp))

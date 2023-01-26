@@ -1,21 +1,18 @@
 package com.example.imdbapp.presentation.mainscreenwithtopmovies
 
 import androidx.compose.runtime.State
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.imdbapp.core.util.Resource
-import com.example.imdbapp.domain.usecase.getmovies.GetMoviesUseCase
+import com.example.imdbapp.domain.usecase.gettopmovies.GetTopMoviesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class TopRatedMoviesViewModel @Inject constructor(
-    private val getMoviesUseCase: GetMoviesUseCase
+    private val getMoviesUseCase: GetTopMoviesUseCase
 ) : ViewModel() {
     private var _state = mutableStateOf(TopRatedMoviesState())
     val state: State<TopRatedMoviesState> = _state
