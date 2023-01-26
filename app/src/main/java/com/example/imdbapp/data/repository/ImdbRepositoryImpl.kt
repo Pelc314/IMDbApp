@@ -27,7 +27,7 @@ class ImdbRepositoryImpl @Inject constructor(
                 }
                 emit(Resource.Success(topMovies))
             } catch (e: HttpException) {
-                emit(Resource.Error(e.message() ?: "Unexpected http Error, wrong return code"))
+                emit(Resource.Error(e.message() ?: "Unexpected http Error, wrong return code from api"))
             } catch (e: IOException) {
                 emit(
                     Resource.Error(
