@@ -22,12 +22,18 @@ class ImdbRepositoryImpl @Inject constructor(
                 emit(Resource.Loading())
                 val topMovies = api.getTopRatedMovies().map { it.toTopMovie() }
                 repeat(1) { i -> // repeated only 1 times so it won't use up API monthly quota which is only 500 requests per Month
-                    topMovies[i].title =
-                        api.findMovie(topMovies[i].id ?: "null").toMovie().results[i].title
+                    val response = api.findMovie(topMovies[i].id ?: "null")
+                        .toMovie().results[0] // results[0] to ensure that the first matching response is downloaded only
+                    topMovies[i].image = response.image
+                    topMovies[i].title = response.title
                 }
                 emit(Resource.Success(topMovies))
             } catch (e: HttpException) {
-                emit(Resource.Error(e.message() ?: "Unexpected http Error, wrong return code from api"))
+                emit(
+                    Resource.Error(
+                        e.message() ?: "Unexpected http Error, wrong return code from api"
+                    )
+                )
             } catch (e: IOException) {
                 emit(
                     Resource.Error(
