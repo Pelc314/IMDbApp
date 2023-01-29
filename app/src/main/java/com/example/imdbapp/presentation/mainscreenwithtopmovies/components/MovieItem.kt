@@ -18,9 +18,9 @@ fun MovieItem(
     Row(
         modifier = Modifier,
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
+        horizontalArrangement = Arrangement.SpaceAround
     ) {
-        Column(modifier = Modifier.wrapContentWidth().padding(15.dp)) {
+        Column(modifier = Modifier.width(250.dp).padding(15.dp)) {
             Text(
                 text = "${movie.title}",
                 color = MaterialTheme.colors.onBackground
@@ -30,7 +30,7 @@ fun MovieItem(
         }
         Column(modifier = Modifier.fillMaxSize()) {
             AsyncImage(
-                model = "${movie.image?.url}",
+                model = movie.imageUrl ?: "",
                 contentDescription = "movie thumbnail",
                 modifier = Modifier
                     .padding(10.dp)

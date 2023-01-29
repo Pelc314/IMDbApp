@@ -14,4 +14,7 @@ interface MovieDatabaseDao {
 
     @Query("DELETE FROM topmovieentity")
     suspend fun clearTopMovies()
+
+    @Query("SELECT * FROM topmovieentity")
+    suspend fun getTopMovies(): List<TopMovieEntity>
 }

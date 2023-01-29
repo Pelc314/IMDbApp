@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.imdbapp.core.util.Resource
 import com.example.imdbapp.domain.usecase.gettopmovies.GetTopMoviesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.* // ktlint-disable no-wildcard-imports
 import javax.inject.Inject
 
 @HiltViewModel
@@ -16,6 +16,8 @@ class TopRatedMoviesViewModel @Inject constructor(
 ) : ViewModel() {
     private var _state = mutableStateOf(TopRatedMoviesState())
     val state: State<TopRatedMoviesState> = _state
+    val scope = CoroutineScope(Dispatchers.IO)
+    var unusuallyLongResponse: Boolean = false
 
     init {
         getTopRatedMovies()
@@ -28,13 +30,25 @@ class TopRatedMoviesViewModel @Inject constructor(
                     is Resource.Success -> {
                         _state.value =
                             TopRatedMoviesState(topRatedMovies = result.data ?: emptyList())
+                        unusuallyLongResponse = false
                     }
                     is Resource.Error -> {
                         _state.value =
                             TopRatedMoviesState(error = result.message ?: "Unexpected Error 0_0")
+                        unusuallyLongResponse = false
                     }
                     is Resource.Loading -> {
                         _state.value = TopRatedMoviesState(isLoading = true)
+                        unusuallyLongResponse = true
+//                        if (unusuallyLongResponse) {
+//                            scope.launch {
+//                                Thread.sleep(5000L)
+//                                _state.value = TopRatedMoviesState(
+//                                    isLoading = true,
+//                                    message = "Please wait, unusually long response"
+//                                )
+//                            }
+//                        }
                     }
                 }
             }
