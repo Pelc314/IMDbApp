@@ -12,12 +12,13 @@ import com.example.imdbapp.domain.model.TopMovie
 
 @Composable
 fun MovieItem(
-    movie: TopMovie,
-    modifier: Modifier = Modifier
+    movie: TopMovie
+//    modifier: Modifier = Modifier
 ) {
     Row(
         modifier = Modifier,
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Column(modifier = Modifier.wrapContentWidth().padding(15.dp)) {
             Text(
@@ -27,6 +28,18 @@ fun MovieItem(
             Spacer(modifier = Modifier.height(8.dp))
             Text(text = "${movie.chartRating}")
         }
-        AsyncImage(model = "${movie.image?.url}", contentDescription = "movie thumbnail")
+        Column(modifier = Modifier.fillMaxSize()) {
+            AsyncImage(
+                model = "${movie.image?.url}",
+                contentDescription = "movie thumbnail",
+                modifier = Modifier
+                    .padding(10.dp)
+                    .size(
+                        width = 90.dp,
+                        height = 110.dp
+                    )
+                    .align(Alignment.End)
+            )
+        }
     }
 }
