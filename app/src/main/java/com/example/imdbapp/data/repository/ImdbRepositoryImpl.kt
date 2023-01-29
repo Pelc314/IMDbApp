@@ -1,6 +1,7 @@
 package com.example.imdbapp.data.repository
 
 import com.example.imdbapp.core.util.Resource
+import com.example.imdbapp.data.local.TopMoviesDatabase
 import com.example.imdbapp.data.mappers.toMovie
 import com.example.imdbapp.data.mappers.toTopMovie
 import com.example.imdbapp.data.remote.IMDbApi
@@ -13,8 +14,11 @@ import java.io.IOException
 import javax.inject.Inject
 
 class ImdbRepositoryImpl @Inject constructor(
-    private val api: IMDbApi
+    private val api: IMDbApi,
+    private val db: TopMoviesDatabase
 ) : ImdbRepository {
+
+    private val dao = db.movieDatabaseDao
 
     override suspend fun getTopRatedMovies(): Flow<Resource<List<TopMovie>>> {
         return flow {

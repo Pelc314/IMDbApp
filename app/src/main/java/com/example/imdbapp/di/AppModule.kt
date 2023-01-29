@@ -1,6 +1,9 @@
 package com.example.imdbapp.di
 
+import android.app.Application
+import androidx.room.Room
 import com.example.imdbapp.core.Constants
+import com.example.imdbapp.data.local.TopMoviesDatabase
 import com.example.imdbapp.data.remote.IMDbApi
 import com.example.imdbapp.data.repository.ImdbRepositoryImpl
 import com.example.imdbapp.domain.repository.ImdbRepository
@@ -27,7 +30,17 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideIMDbRepository(api: IMDbApi): ImdbRepository {
-        return ImdbRepositoryImpl(api)
+    fun provideIMDbRepository(api: IMDbApi, db: TopMoviesDatabase): ImdbRepository {
+        return ImdbRepositoryImpl(api, db)
+    }
+
+    @Provides
+    @Singleton
+    fun provideTopMoviesDatabase(app: Application): TopMoviesDatabase {
+        return Room.databaseBuilder(
+            app,
+            TopMoviesDatabase::class.java,
+            "topmovies.db"
+        ).build()
     }
 }

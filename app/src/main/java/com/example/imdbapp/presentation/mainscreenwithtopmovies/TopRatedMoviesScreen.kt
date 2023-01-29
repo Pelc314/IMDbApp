@@ -1,6 +1,5 @@
 package com.example.imdbapp.presentation.mainscreenwithtopmovies
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.* // ktlint-disable no-wildcard-imports
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.CircularProgressIndicator
@@ -27,12 +26,12 @@ fun TopRatedMoviesScreen(
             items(state.topRatedMovies.size) { i ->
                 val movie = state.topRatedMovies[i]
                 MovieItem(
-                    movie = movie,
-                    modifier = Modifier.fillMaxWidth().clickable {
+                    movie = movie
+//                    modifier = Modifier.fillMaxWidth().clickable {
 //                    navigator.navigate(
 //                        CompanyInfoScreenDestination(company.symbol)
 //                    )
-                    }.padding(16.dp)
+//                    }.padding(16.dp)
                 )
                 if (i < state.topRatedMovies.size) {
                     Divider(modifier = Modifier.padding(horizontal = 16.dp))
