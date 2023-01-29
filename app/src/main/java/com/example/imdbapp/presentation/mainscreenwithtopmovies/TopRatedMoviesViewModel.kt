@@ -40,15 +40,15 @@ class TopRatedMoviesViewModel @Inject constructor(
                     is Resource.Loading -> {
                         _state.value = TopRatedMoviesState(isLoading = true)
                         unusuallyLongResponse = true
-//                        if (unusuallyLongResponse) {
-//                            scope.launch {
-//                                Thread.sleep(5000L)
-//                                _state.value = TopRatedMoviesState(
-//                                    isLoading = true,
-//                                    message = "Please wait, unusually long response"
-//                                )
-//                            }
-//                        }
+                        scope.launch {
+                            Thread.sleep(5000L)
+                            if (unusuallyLongResponse) {
+                                _state.value = TopRatedMoviesState(
+                                    isLoading = true,
+                                    message = "Please wait, unusually long response"
+                                )
+                            }
+                        }
                     }
                 }
             }
