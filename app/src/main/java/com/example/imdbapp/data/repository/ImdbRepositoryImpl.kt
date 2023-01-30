@@ -6,6 +6,7 @@ import com.example.imdbapp.data.mappers.toMovie
 import com.example.imdbapp.data.mappers.toTopMovie
 import com.example.imdbapp.data.mappers.toTopMovieEntity
 import com.example.imdbapp.data.remote.IMDbApi
+import com.example.imdbapp.domain.model.MovieDetails
 import com.example.imdbapp.domain.model.TopMovie
 import com.example.imdbapp.domain.repository.ImdbRepository
 import kotlinx.coroutines.flow.Flow
@@ -35,7 +36,6 @@ class ImdbRepositoryImpl @Inject constructor(
                 topMoviesRemote =
                     topMoviesRemote.dropLast(240) // only top few movies are needed. Default response gives 250 records
                 repeat(topMoviesRemote.size) { i -> // repeated only few times so it won't use up API monthly quota which is only 500 requests per Month
-//                repeat(1) { i ->
                     val remoteResponseTopMovieTitleAndImage =
                         api.findMovie(topMoviesRemote[i].id ?: "null")
                             .toMovie().results[0] // results[0] to ensure that the first matching response is downloaded only
@@ -51,7 +51,7 @@ class ImdbRepositoryImpl @Inject constructor(
             } catch (e: HttpException) {
                 emit(
                     Resource.Error(
-                        e.message() ?: "Unexpected http Error, wrong return code from api"
+                        e.message() ?: "Unexpected http Error, wrong return code from HTTP"
                     )
                 )
             } catch (e: IOException) {
@@ -62,5 +62,10 @@ class ImdbRepositoryImpl @Inject constructor(
                 )
             }
         }
+    }
+
+    override suspend fun getMovieDetails(): Flow<Resource<MovieDetails>> {
+
+        TODO("Not yet implemented")
     }
 }
