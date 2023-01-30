@@ -41,6 +41,8 @@ object AppModule {
             app,
             TopMoviesDatabase::class.java,
             "topmovies.db"
-        ).build()
+        )
+            .fallbackToDestructiveMigration()
+            .build()
     }
 }

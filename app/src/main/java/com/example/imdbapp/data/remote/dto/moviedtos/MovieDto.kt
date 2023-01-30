@@ -4,6 +4,6 @@ data class MovieDto(
     val meta: Meta,
     val type: String,
     val query: String,
-    val results: List<MovieDetails>,
+    val results: List<MovieDetailsDto>,
     val types: List<String>
 )

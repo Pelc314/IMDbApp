@@ -1,7 +1,7 @@
 package com.example.imdbapp.domain.model
 
-import com.example.imdbapp.data.remote.dto.moviedtos.MovieDetails
+import com.example.imdbapp.data.remote.dto.moviedtos.MovieDetailsDto
 
 data class Movie(
-    val results: List<MovieDetails>
+    val results: List<MovieDetailsDto>
 )

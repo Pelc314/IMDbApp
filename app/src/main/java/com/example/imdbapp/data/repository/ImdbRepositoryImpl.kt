@@ -1,8 +1,10 @@
 package com.example.imdbapp.data.repository
 
+import android.util.Log
 import com.example.imdbapp.core.util.Resource
 import com.example.imdbapp.data.local.TopMoviesDatabase
 import com.example.imdbapp.data.mappers.toMovie
+import com.example.imdbapp.data.mappers.toMovieDetails
 import com.example.imdbapp.data.mappers.toTopMovie
 import com.example.imdbapp.data.mappers.toTopMovieEntity
 import com.example.imdbapp.data.remote.IMDbApi
@@ -40,7 +42,7 @@ class ImdbRepositoryImpl @Inject constructor(
                         api.findMovie(topMoviesRemote[i].id ?: "null")
                             .toMovie().results[0] // results[0] to ensure that the first matching response is downloaded only
 
-                    topMoviesRemote[i].imageUrl = remoteResponseTopMovieTitleAndImage.image.url
+                    topMoviesRemote[i].imageUrl = remoteResponseTopMovieTitleAndImage.image?.url
                     topMoviesRemote[i].title = remoteResponseTopMovieTitleAndImage.title
                 }
                 emit(Resource.Success(topMoviesRemote))
@@ -64,8 +66,26 @@ class ImdbRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getMovieDetails(): Flow<Resource<MovieDetails>> {
-
-        TODO("Not yet implemented")
+    override suspend fun getMovieDetails(query: String): Flow<Resource<MovieDetails>> {
+        return flow {
+            emit(Resource.Loading())
+            try {
+                val movieDetails = api.findMovie(query).toMovie().results.get(0).toMovieDetails()
+                Log.d("MovieDetails", "${movieDetails.title} , $query")
+                emit(Resource.Success(data = movieDetails))
+            } catch (e: HttpException) {
+                emit(
+                    Resource.Error(
+                        e.message() ?: "Unexpected http Error, wrong return code from HTTP"
+                    )
+                )
+            } catch (e: IOException) {
+                emit(
+                    Resource.Error(
+                        e.message ?: "Unexpected IO exception, check your Internet connection 0_0"
+                    )
+                )
+            }
+        }
     }
 }

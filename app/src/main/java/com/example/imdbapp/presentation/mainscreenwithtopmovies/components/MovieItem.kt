@@ -12,15 +12,15 @@ import com.example.imdbapp.domain.model.TopMovie
 
 @Composable
 fun MovieItem(
-    movie: TopMovie
-//    modifier: Modifier = Modifier
+    movie: TopMovie,
+    modifier: Modifier = Modifier
 ) {
     Row(
-        modifier = Modifier,
+        modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceAround
     ) {
-        Column(modifier = Modifier.width(250.dp).padding(15.dp)) {
+        Column(modifier = Modifier.width(250.dp)) {
             Text(
                 text = "${movie.title}",
                 color = MaterialTheme.colors.onBackground
@@ -33,7 +33,6 @@ fun MovieItem(
                 model = movie.imageUrl ?: "",
                 contentDescription = "movie thumbnail",
                 modifier = Modifier
-                    .padding(10.dp)
                     .size(
                         width = 90.dp,
                         height = 110.dp

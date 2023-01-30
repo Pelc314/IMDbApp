@@ -1,5 +1,7 @@
 package com.example.imdbapp.presentation.mainscreenwithtopmovies
 
+import android.util.Log
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.* // ktlint-disable no-wildcard-imports
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.CircularProgressIndicator
@@ -13,11 +15,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.imdbapp.presentation.destinations.MovieDetailsScreenDestination
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @Composable
 @Destination(start = true)
 fun TopRatedMoviesScreen(
+    navigator: DestinationsNavigator,
     viewModel: TopRatedMoviesViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.value
@@ -27,12 +32,14 @@ fun TopRatedMoviesScreen(
             items(state.topRatedMovies.size) { i ->
                 val movie = state.topRatedMovies[i]
                 MovieItem(
-                    movie = movie
-//                    modifier = Modifier.fillMaxWidth().clickable {
-//                    navigator.navigate(
-//                        CompanyInfoScreenDestination(company.symbol)
-//                    )
-//                    }.padding(16.dp)
+                    movie = movie,
+                    modifier = Modifier.fillMaxWidth().clickable {
+                        navigator.navigate(
+                            MovieDetailsScreenDestination(movie.id ?: "")
+
+                        )
+                        Log.d("MovieDetailsMovieId", "${movie.id}")
+                    }.padding(16.dp)
                 )
                 if (i < state.topRatedMovies.size) {
                     Divider(modifier = Modifier.padding(horizontal = 16.dp))

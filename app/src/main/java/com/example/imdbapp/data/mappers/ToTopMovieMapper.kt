@@ -16,12 +16,16 @@ fun TopMovieEntity.toTopMovie(): TopMovie {
     return TopMovie(
         chartRating = chartRating,
         title = title,
-        imageUrl = imageUrl
+        imageUrl = imageUrl,
+        id = movieId
     )
 }
 
-fun TopMovie.toTopMovieEntity(): TopMovieEntity = TopMovieEntity(
-    imageUrl = imageUrl,
-    title = title,
-    chartRating = chartRating
-)
+fun TopMovie.toTopMovieEntity(): TopMovieEntity {
+    return TopMovieEntity(
+        imageUrl = imageUrl,
+        title = title,
+        chartRating = chartRating,
+        movieId = id
+    )
+}

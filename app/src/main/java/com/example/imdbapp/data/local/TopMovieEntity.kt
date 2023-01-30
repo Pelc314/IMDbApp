@@ -9,5 +9,6 @@ data class TopMovieEntity(
     @PrimaryKey val id: Int? = null,
     val imageUrl: String? = "",
     val title: String? = "Default title",
-    val chartRating: Double? = 0.0
+    val chartRating: Double? = 0.0,
+    val movieId: String? = ""
 )

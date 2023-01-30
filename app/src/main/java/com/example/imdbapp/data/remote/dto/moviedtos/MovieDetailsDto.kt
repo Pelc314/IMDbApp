@@ -1,10 +1,6 @@
-package com.example.imdbapp.domain.model
+package com.example.imdbapp.data.remote.dto.moviedtos
 
-import com.example.imdbapp.data.remote.dto.moviedtos.Image
-import com.example.imdbapp.data.remote.dto.moviedtos.ParentTitle
-import com.example.imdbapp.data.remote.dto.moviedtos.Principal
-
-data class MovieDetails(
+data class MovieDetailsDto(
     val episode: Int = 0,
     val id: String = "",
     val image: Image,
