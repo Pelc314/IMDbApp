@@ -8,10 +8,10 @@ import com.ramcosta.composedestinations.annotation.Destination
 @Composable
 @Destination
 fun MovieDetailsScreen(
-    query: String,
+    movieId: String,
     viewModel: MovieDetailsViewModel = hiltViewModel()
 ) {
-    val state = viewModel.state.value.movieDetails
+    val state = viewModel.state.value
 
-    Text(text = state?.title ?: "null")
+    Text(text = state?.movieDetails?.title ?: "null")
 }

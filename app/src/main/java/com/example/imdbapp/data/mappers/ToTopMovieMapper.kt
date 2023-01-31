@@ -17,7 +17,7 @@ fun TopMovieEntity.toTopMovie(): TopMovie {
         chartRating = chartRating,
         title = title,
         imageUrl = imageUrl,
-        id = movieId
+        id = id
     )
 }
 
@@ -26,6 +26,6 @@ fun TopMovie.toTopMovieEntity(): TopMovieEntity {
         imageUrl = imageUrl,
         title = title,
         chartRating = chartRating,
-        movieId = id
+        id = id
     )
 }

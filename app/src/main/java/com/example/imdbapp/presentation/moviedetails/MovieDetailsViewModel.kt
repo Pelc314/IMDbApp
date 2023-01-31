@@ -1,6 +1,5 @@
 package com.example.imdbapp.presentation.moviedetails
 
-import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
@@ -21,14 +20,14 @@ class MovieDetailsViewModel @Inject constructor(
     val state: State<MovieDetailsState> = _state
 
     init {
-        getMovieDetails()
+        savedStateHandle.get<String>("movieId")?.let { movieId ->
+            getMovieDetails(movieId)
+        }
     }
 
-    private fun getMovieDetails() {
+    private fun getMovieDetails(movieId: String) {
         viewModelScope.launch {
-            Log.d("MovieDetailsViewModel", "${savedStateHandle.get<String>("id") ?: null}")
-            val id = savedStateHandle.get<String>("id") ?: return@launch
-            getMovieDetailsUseCase.getMovieDetails(id).collect() { results ->
+            getMovieDetailsUseCase.getMovieDetails(movieId).collect() { results ->
                 when (results) {
                     is Resource.Success -> {
                         _state.value = MovieDetailsState(movieDetails = results.data)

@@ -1,6 +1,5 @@
 package com.example.imdbapp.presentation.mainscreenwithtopmovies
 
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.* // ktlint-disable no-wildcard-imports
 import androidx.compose.foundation.lazy.LazyColumn
@@ -38,7 +37,6 @@ fun TopRatedMoviesScreen(
                             MovieDetailsScreenDestination(movie.id ?: "")
 
                         )
-                        Log.d("MovieDetailsMovieId", "${movie.id}")
                     }.padding(16.dp)
                 )
                 if (i < state.topRatedMovies.size) {
