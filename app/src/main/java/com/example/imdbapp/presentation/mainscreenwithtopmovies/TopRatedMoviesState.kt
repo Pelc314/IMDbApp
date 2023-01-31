@@ -7,5 +7,6 @@ data class TopRatedMoviesState(
     val isLoading: Boolean = false,
     val isRefreshing: Boolean = false,
     val searchQuery: String = "",
-    val error: String = ""
+    val error: String = "",
+    val message: String = ""
 )

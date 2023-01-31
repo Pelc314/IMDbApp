@@ -7,10 +7,6 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface IMDbApi {
-    @GET("actors/list-most-popular-celebs")
-    suspend fun callMostPopularCelebs(
-        @Query("rapidapi-key") apiKey: String = ApiKey.API_KEY
-    ): List<String>
 
     @GET("title/get-top-rated-movies")
     suspend fun getTopRatedMovies(
