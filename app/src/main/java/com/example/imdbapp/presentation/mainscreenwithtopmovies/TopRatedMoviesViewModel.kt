@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.imdbapp.core.util.Resource
+import com.example.imdbapp.domain.usecase.getmoviedetails.GetMovieDetailsUseCase
 import com.example.imdbapp.domain.usecase.gettopmovies.GetTopMoviesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.* // ktlint-disable no-wildcard-imports
@@ -12,15 +13,21 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TopRatedMoviesViewModel @Inject constructor(
-    private val getMoviesUseCase: GetTopMoviesUseCase
+    private val getMoviesUseCase: GetTopMoviesUseCase,
+    private val getMovieDetailsUseCase: GetMovieDetailsUseCase
 ) : ViewModel() {
     private var _state = mutableStateOf(TopRatedMoviesState())
     val state: State<TopRatedMoviesState> = _state
-    val scope = CoroutineScope(Dispatchers.IO)
-    var unusuallyLongResponse: Boolean = false
+    private val scope = CoroutineScope(Dispatchers.IO)
+    private var unusuallyLongResponse: Boolean = false
 
     init {
         getTopRatedMovies()
+    }
+    fun updateState(query: String) {
+        viewModelScope.launch {
+            _state.value = TopRatedMoviesState(topRatedMovies = _state.value.topRatedMovies, searchQuery = query)
+        }
     }
 
     private fun getTopRatedMovies() {

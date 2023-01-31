@@ -6,7 +6,7 @@ data class TopRatedMoviesState(
     val topRatedMovies: List<TopMovie> = emptyList(),
     val isLoading: Boolean = false,
     val isRefreshing: Boolean = false,
-    val searchQuery: String = "",
+    var searchQuery: String = "",
     val error: String = "",
     val message: String = ""
 )

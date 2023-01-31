@@ -65,7 +65,7 @@ class ImdbRepositoryImpl @Inject constructor(
 
     override suspend fun getMovieDetails(query: String): Flow<Resource<MovieDetails>> {
         return flow {
-//            emit(Resource.Loading())
+            emit(Resource.Loading())
             try {
                 val movie = api.findMovie(query)
                     .toMovie()
