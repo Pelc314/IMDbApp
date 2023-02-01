@@ -30,7 +30,7 @@ class MovieDetailsViewModel @Inject constructor(
             getMovieDetailsUseCase.getMovieDetails(movieId).collect() { results ->
                 when (results) {
                     is Resource.Success -> {
-                        _state.value = MovieDetailsState(movieDetails = results.data)
+                        _state.value = MovieDetailsState(movie = results.data)
                     }
                     is Resource.Error -> {
                         _state.value =

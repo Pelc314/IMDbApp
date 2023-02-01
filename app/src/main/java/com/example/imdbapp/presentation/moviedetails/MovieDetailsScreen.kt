@@ -21,7 +21,7 @@ fun MovieDetailsScreen(
 ) {
     val state = viewModel.state.value
 
-    Text(text = state?.movieDetails?.title ?: "null")
+    Text(text = state?.movie?.title ?: "null")
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         if (state.isLoading) {
             Column() {

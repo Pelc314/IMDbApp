@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.imdbapp.presentation.destinations.MovieDetailsScreenDestination
+import com.example.imdbapp.presentation.destinations.SearchResultsScreenDestination
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
@@ -45,7 +46,7 @@ fun TopRatedMoviesScreen(
                 singleLine = true,
                 keyboardActions = KeyboardActions(onDone = {
                     navigator.navigate(
-                        MovieDetailsScreenDestination(state.searchQuery)
+                        SearchResultsScreenDestination(state.searchQuery)
                     )
                 })
             )

@@ -1,6 +1,4 @@
-package com.example.imdbapp.data.remote.dto.moviedtos
-
-import com.example.imdbapp.data.remote.dto.searchresultsactordtos.Role
+package com.example.imdbapp.data.remote.dto.searchresultsdto
 
 data class Cast(
     val `as`: String,

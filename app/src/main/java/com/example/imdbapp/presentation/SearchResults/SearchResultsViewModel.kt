@@ -1,20 +1,21 @@
 package com.example.imdbapp.presentation.SearchResults
 
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.imdbapp.core.util.Resource
-import com.example.imdbapp.domain.usecase.GetMovieDetailsUseCase
-import com.example.imdbapp.domain.usecase.GetTopMoviesUseCase
+import com.example.imdbapp.domain.usecase.GetSearchResultsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.* // ktlint-disable no-wildcard-imports
 import javax.inject.Inject
 
 @HiltViewModel
 class SearchResultsViewModel @Inject constructor(
-    private val getMoviesUseCase: GetTopMoviesUseCase,
-    private val getMovieDetailsUseCase: GetMovieDetailsUseCase
+    private val getSearchResultsUseCase: GetSearchResultsUseCase,
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
     private var _state = mutableStateOf(SearchResultsState())
     val state: State<SearchResultsState> = _state
@@ -22,26 +23,34 @@ class SearchResultsViewModel @Inject constructor(
     private var unusuallyLongResponse: Boolean = false
 
     init {
-        getTopRatedMovies()
-    }
-    fun updateState(query: String) {
-        viewModelScope.launch {
-            _state.value = SearchResultsState(topRatedMovies = _state.value.topRatedMovies, searchQuery = query)
+        savedStateHandle.get<String>("results")?.let { searchResults ->
+            getSearchResults(searchResults)
         }
     }
 
-    private fun getTopRatedMovies() {
+    private fun getSearchResults(query: String) {
+        Log.d("searchresultsviewmodel", "$query")
         viewModelScope.launch {
-            getMoviesUseCase.getTopMovies().collect() { result ->
-                when (result) {
+            Log.d("searchresultsviewmodel2", "$query")
+
+            getSearchResultsUseCase.getSearchResults(query).collect() { searchResult ->
+                when (searchResult) {
                     is Resource.Success -> {
-                        _state.value =
-                            SearchResultsState(topRatedMovies = result.data ?: emptyList())
+                        Log.d(
+                            "searchresultsviewmodel3",
+                            "${searchResult.data?.results?.get(0)?.title}"
+                        )
+
+                        _state.value = SearchResultsState(
+                            searchResults = searchResult.data?.results ?: emptyList()
+                        )
                         unusuallyLongResponse = false
                     }
                     is Resource.Error -> {
                         _state.value =
-                            SearchResultsState(error = result.message ?: "Unexpected Error 0_0")
+                            SearchResultsState(
+                                error = searchResult.message ?: "Unexpected Error 0_0"
+                            )
                         unusuallyLongResponse = false
                     }
                     is Resource.Loading -> {

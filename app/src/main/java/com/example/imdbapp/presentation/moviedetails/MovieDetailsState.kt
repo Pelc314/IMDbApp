@@ -1,9 +1,9 @@
 package com.example.imdbapp.presentation.moviedetails
 
-import com.example.imdbapp.domain.model.MovieDetails
+import com.example.imdbapp.domain.model.Movie
 
 data class MovieDetailsState(
-    val movieDetails: MovieDetails? = null,
+    val movie: Movie? = null,
     val isLoading: Boolean = false,
     val isRefreshing: Boolean = false,
     val searchQuery: String = "",
