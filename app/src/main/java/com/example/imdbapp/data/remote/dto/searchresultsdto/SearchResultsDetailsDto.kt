@@ -15,5 +15,6 @@ data class SearchResultsDetailsDto(
     val seriesStartYear: Int = 0,
     val title: String = "",
     val titleType: String = "",
-    val year: Int = 0
+    val year: Int = 0,
+    val name: String = ""
 )

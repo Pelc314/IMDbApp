@@ -21,16 +21,24 @@ fun SearchResultItem(
         horizontalArrangement = Arrangement.SpaceAround
     ) {
         Column(modifier = Modifier.width(250.dp)) {
-            Text(
-                text = "${results.title}",
-                color = MaterialTheme.colors.onBackground
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(text = "${results.runningTimeInMinutes}")
+            if (results.akas.isNullOrEmpty()) {
+                Text(
+                    text = "${results?.title ?: "null"}",
+                    color = MaterialTheme.colors.onBackground
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(text = "${results.runningTimeInMinutes}")
+            } else {
+                Text(
+                    text = "${results?.name ?: "null"}",
+                    color = MaterialTheme.colors.onBackground
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+            }
         }
         Column(modifier = Modifier.fillMaxSize()) {
             AsyncImage(
-                model = results.image.url ?: "",
+                model = results?.image?.url ?: "null",
                 contentDescription = "movie thumbnail",
                 modifier = Modifier
                     .size(

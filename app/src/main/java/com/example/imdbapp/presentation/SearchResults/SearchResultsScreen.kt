@@ -35,7 +35,7 @@ fun SearchResultsScreen(
                 results = results,
                 modifier = Modifier.fillMaxWidth().clickable {
                     navigator.navigate(
-                        MovieDetailsScreenDestination(results.id ?: "")
+                        MovieDetailsScreenDestination(results.id.drop(7).dropLast(1) ?: "")
 
                     )
                 }.padding(16.dp)
