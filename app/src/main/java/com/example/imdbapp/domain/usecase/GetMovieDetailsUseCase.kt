@@ -1,4 +1,4 @@
-package com.example.imdbapp.domain.usecase.getmoviedetails
+package com.example.imdbapp.domain.usecase
 
 import com.example.imdbapp.core.util.Resource
 import com.example.imdbapp.domain.model.MovieDetails

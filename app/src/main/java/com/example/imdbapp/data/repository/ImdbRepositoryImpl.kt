@@ -23,6 +23,11 @@ class ImdbRepositoryImpl @Inject constructor(
 
     private val dao = db.movieDatabaseDao
 
+
+    override suspend fun getSearchResults(query: String):Flow<Resource<SearchResults>> {
+
+    }
+
     override suspend fun getTopRatedMovies(): Flow<Resource<List<TopMovie>>> {
         return flow {
             emit(Resource.Loading())

@@ -9,4 +9,6 @@ interface ImdbRepository {
 
     suspend fun getTopRatedMovies(): Flow<Resource<List<TopMovie>>>
     suspend fun getMovieDetails(query: String): Flow<Resource<MovieDetails>>
+
+    suspend fun getSearchResults(query:String):Flow<Resource<SearchResults>>
 }

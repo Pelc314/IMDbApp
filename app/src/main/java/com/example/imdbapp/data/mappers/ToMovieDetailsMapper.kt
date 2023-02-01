@@ -1,9 +1,9 @@
 package com.example.imdbapp.data.mappers // ktlint-disable filename
 
-import com.example.imdbapp.data.remote.dto.moviedtos.MovieDetailsDto
+import com.example.imdbapp.data.remote.dto.moviedtos.SearchResultDetailsDto
 import com.example.imdbapp.domain.model.MovieDetails
 
-fun MovieDetailsDto.toMovieDetails(): MovieDetails {
+fun SearchResultDetailsDto.toMovieDetails(): MovieDetails {
     return MovieDetails(
         episode = episode,
         id = id,

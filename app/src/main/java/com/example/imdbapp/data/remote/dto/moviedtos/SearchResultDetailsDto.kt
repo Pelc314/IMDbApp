@@ -1,6 +1,7 @@
 package com.example.imdbapp.data.remote.dto.moviedtos
 
-data class MovieDetailsDto(
+data class SearchResultDetailsDto(
+    val akas: List<String>,
     val episode: Int = 0,
     val id: String = "",
     val image: Image,

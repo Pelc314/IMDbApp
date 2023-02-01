@@ -43,14 +43,12 @@ fun TopRatedMoviesScreen(
                 placeholder = { Text(text = "Search...") },
                 maxLines = 1,
                 singleLine = true,
-//            keyboardActions = KeyboardActions(onDone = { viewModel.onSearchQuery(state.searchQuery) })
                 keyboardActions = KeyboardActions(onDone = {
                     navigator.navigate(
                         MovieDetailsScreenDestination(state.searchQuery)
                     )
                 })
             )
-//
             LazyColumn(modifier = Modifier.fillMaxSize()) {
                 items(state.topRatedMovies.size) { i ->
                     val movie = state.topRatedMovies[i]

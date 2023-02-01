@@ -1,4 +1,4 @@
-package com.example.imdbapp.domain.usecase.gettopmovies
+package com.example.imdbapp.domain.usecase
 
 import com.example.imdbapp.core.util.Resource
 import com.example.imdbapp.domain.model.TopMovie

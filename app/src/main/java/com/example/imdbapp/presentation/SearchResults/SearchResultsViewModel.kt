@@ -1,4 +1,4 @@
-package com.example.imdbapp.presentation.mainscreenwithtopmovies
+package com.example.imdbapp.presentation.SearchResults
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -12,12 +12,12 @@ import kotlinx.coroutines.* // ktlint-disable no-wildcard-imports
 import javax.inject.Inject
 
 @HiltViewModel
-class TopRatedMoviesViewModel @Inject constructor(
+class SearchResultsViewModel @Inject constructor(
     private val getMoviesUseCase: GetTopMoviesUseCase,
     private val getMovieDetailsUseCase: GetMovieDetailsUseCase
 ) : ViewModel() {
-    private var _state = mutableStateOf(TopRatedMoviesState())
-    val state: State<TopRatedMoviesState> = _state
+    private var _state = mutableStateOf(SearchResultsState())
+    val state: State<SearchResultsState> = _state
     private val scope = CoroutineScope(Dispatchers.IO)
     private var unusuallyLongResponse: Boolean = false
 
@@ -26,7 +26,7 @@ class TopRatedMoviesViewModel @Inject constructor(
     }
     fun updateState(query: String) {
         viewModelScope.launch {
-            _state.value = TopRatedMoviesState(topRatedMovies = _state.value.topRatedMovies, searchQuery = query)
+            _state.value = SearchResultsState(topRatedMovies = _state.value.topRatedMovies, searchQuery = query)
         }
     }
 
@@ -36,21 +36,21 @@ class TopRatedMoviesViewModel @Inject constructor(
                 when (result) {
                     is Resource.Success -> {
                         _state.value =
-                            TopRatedMoviesState(topRatedMovies = result.data ?: emptyList())
+                            SearchResultsState(topRatedMovies = result.data ?: emptyList())
                         unusuallyLongResponse = false
                     }
                     is Resource.Error -> {
                         _state.value =
-                            TopRatedMoviesState(error = result.message ?: "Unexpected Error 0_0")
+                            SearchResultsState(error = result.message ?: "Unexpected Error 0_0")
                         unusuallyLongResponse = false
                     }
                     is Resource.Loading -> {
-                        _state.value = TopRatedMoviesState(isLoading = true)
+                        _state.value = SearchResultsState(isLoading = true)
                         unusuallyLongResponse = true
                         scope.launch {
                             Thread.sleep(5000L)
                             if (unusuallyLongResponse) {
-                                _state.value = TopRatedMoviesState(
+                                _state.value = SearchResultsState(
                                     isLoading = true,
                                     message = "Please wait, unusually long response"
                                 )
