@@ -30,7 +30,11 @@ fun SearchResultItem(
                         color = MaterialTheme.colors.onBackground
                     )
                     Spacer(modifier = Modifier.height(8.dp))
-                    Text(text = "${results.runningTimeInMinutes}")
+                    if (results.runningTimeInMinutes == 0) {
+                        Text(text = "Movie length: Unknown")
+                    } else Text(
+                        text = "Movie length: ${results.runningTimeInMinutes} min"
+                    )
                 } else {
                     Text(
                         text = "${results?.name ?: "null"}",

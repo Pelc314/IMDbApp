@@ -32,7 +32,7 @@ fun SearchResultsScreen(
         Column(modifier = Modifier.fillMaxSize().height(50.dp)) {
             if (!state.isLoading) {
                 Text(
-                    text = "Search Results:",
+                    text = "Search Results: $results",
                     modifier = Modifier.padding(start = 16.dp),
                     fontSize = 30.sp
                 )
