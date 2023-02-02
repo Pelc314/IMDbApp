@@ -5,6 +5,7 @@ import com.example.imdbapp.core.util.Resource
 import com.example.imdbapp.data.local.TopMoviesDatabase
 import com.example.imdbapp.data.mappers.* // ktlint-disable no-wildcard-imports
 import com.example.imdbapp.data.remote.IMDbApi
+import com.example.imdbapp.domain.model.Actor
 import com.example.imdbapp.domain.model.Movie
 import com.example.imdbapp.domain.model.SearchResults
 import com.example.imdbapp.domain.model.TopMovie
@@ -99,6 +100,30 @@ class ImdbRepositoryImpl @Inject constructor(
                     .results[0]
                 val movieDetails = movie.toMovie()
                 emit(Resource.Success(data = movieDetails))
+            } catch (e: HttpException) {
+                emit(
+                    Resource.Error(
+                        e.message() ?: "Unexpected http Error, wrong return code from HTTP"
+                    )
+                )
+            } catch (e: IOException) {
+                emit(
+                    Resource.Error(
+                        e.message ?: "Unexpected IO exception, check your Internet connection 0_0"
+                    )
+                )
+            }
+        }
+    }
+    override suspend fun getActorDetails(query: String): Flow<Resource<Actor>> {
+        return flow {
+            emit(Resource.Loading())
+            try {
+                val actor = api.findMovieorActor(query)
+                    .toActorResponse()
+                    .results[0]
+                val actorDetails = actor.toActor()
+                emit(Resource.Success(data = actorDetails))
             } catch (e: HttpException) {
                 emit(
                     Resource.Error(

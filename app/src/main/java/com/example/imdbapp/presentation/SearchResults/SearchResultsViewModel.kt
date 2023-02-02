@@ -1,6 +1,5 @@
 package com.example.imdbapp.presentation.SearchResults
 
-import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
@@ -29,18 +28,10 @@ class SearchResultsViewModel @Inject constructor(
     }
 
     private fun getSearchResults(query: String) {
-        Log.d("searchresultsviewmodel", "$query")
         viewModelScope.launch {
-            Log.d("searchresultsviewmodel2", "$query")
-
             getSearchResultsUseCase.getSearchResults(query).collect() { searchResult ->
                 when (searchResult) {
                     is Resource.Success -> {
-                        Log.d(
-                            "searchresultsviewmodel3",
-                            "${searchResult.data?.results?.get(0)?.title}"
-                        )
-
                         _state.value = SearchResultsState(
                             searchResults = searchResult.data?.results ?: emptyList()
                         )

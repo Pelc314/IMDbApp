@@ -1,5 +1,6 @@
 package com.example.imdbapp.presentation.SearchResults
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.* // ktlint-disable no-wildcard-imports
 import androidx.compose.foundation.lazy.LazyColumn
@@ -15,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.imdbapp.presentation.SearchResults.components.SearchResultItem
+import com.example.imdbapp.presentation.destinations.ActorDetailsScreenDestination
 import com.example.imdbapp.presentation.destinations.MovieDetailsScreenDestination
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -34,10 +36,14 @@ fun SearchResultsScreen(
             SearchResultItem(
                 results = results,
                 modifier = Modifier.fillMaxWidth().clickable {
-                    navigator.navigate(
-                        MovieDetailsScreenDestination(results.id.drop(7).dropLast(1) ?: "")
-
-                    )
+                    val resultId = results.id.drop(6).dropLast(1) ?: ""
+                    val actorOrMovie = resultId[0] == 'n'
+                    Log.d("resultId", "$resultId")
+                    if (actorOrMovie) {
+                        navigator.navigate(ActorDetailsScreenDestination(resultId))
+                    } else {
+                        navigator.navigate(MovieDetailsScreenDestination(resultId))
+                    }
                 }.padding(16.dp)
             )
             if (i < state.searchResults.size) {
