@@ -1,6 +1,5 @@
 package com.example.imdbapp.presentation.SearchResults
 
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.* // ktlint-disable no-wildcard-imports
 import androidx.compose.foundation.lazy.LazyColumn
@@ -29,45 +28,58 @@ fun SearchResultsScreen(
     viewModel: SearchResultsViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.value
-
-    LazyColumn(modifier = Modifier.fillMaxSize()) {
-        items(state.searchResults.size) { i ->
-            val results = state.searchResults[i]
-            SearchResultItem(
-                results = results,
-                modifier = Modifier.fillMaxWidth().clickable {
-                    val resultId = results.id.drop(6).dropLast(1) ?: ""
-                    val actorOrMovie = resultId[0] == 'n'
-                    Log.d("resultId", "$resultId")
-                    if (actorOrMovie) {
-                        navigator.navigate(ActorDetailsScreenDestination(resultId))
-                    } else {
-                        navigator.navigate(MovieDetailsScreenDestination(resultId))
-                    }
-                }.padding(16.dp)
-            )
-            if (i < state.searchResults.size) {
+    Box(modifier = Modifier.fillMaxSize()) {
+        Column(modifier = Modifier.fillMaxSize().height(50.dp)) {
+            if (!state.isLoading) {
+                Text(
+                    text = "Search Results:",
+                    modifier = Modifier.padding(start = 16.dp),
+                    fontSize = 30.sp
+                )
                 Divider(modifier = Modifier.padding(horizontal = 16.dp))
             }
+            LazyColumn(modifier = Modifier.fillMaxSize()) {
+                items(state.searchResults.size) { i ->
+                    val results = state.searchResults[i]
+                    SearchResultItem(
+                        results = results,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable {
+                                val resultId = results.id ?: ""
+                                val actorOrMovie = resultId.get(0) == 'n'
+                                if (actorOrMovie) {
+                                    navigator.navigate(ActorDetailsScreenDestination(resultId))
+                                } else {
+                                    navigator.navigate(MovieDetailsScreenDestination(resultId))
+                                }
+                            }
+                            .padding(16.dp)
+                    )
+                    if (i < state.searchResults.size) {
+                        Divider(modifier = Modifier.padding(horizontal = 16.dp))
+                    }
+                }
+            }
         }
-    }
 
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        if (state.isLoading) {
-            Column() {
-                CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
-                Spacer(modifier = Modifier.height(10.dp))
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            if (state.isLoading) {
+                Column() {
+                    CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
+                    Spacer(modifier = Modifier.height(10.dp))
+                    Text(
+                        text = state.message,
+                        color = Color.Red,
+                        fontSize = 20.sp
+                    )
+                }
+            } else if (state.error != "") {
                 Text(
-                    text = state.message,
-                    color = Color.Red,
-                    fontSize = 20.sp
+                    text = state.error,
+                    color = MaterialTheme.colors.error
                 )
             }
-        } else if (state.error != "") {
-            Text(
-                text = state.error,
-                color = MaterialTheme.colors.error
-            )
         }
     }
 }

@@ -98,7 +98,9 @@ class ImdbRepositoryImpl @Inject constructor(
                 val movie = api.findMovieorActor(query)
                     .toMovieResponse()
                     .results[0]
-                val movieDetails = movie.toMovie()
+                val movieDetails = movie
+                    .toSearchResultsDetails()
+                    .toMovie()
                 emit(Resource.Success(data = movieDetails))
             } catch (e: HttpException) {
                 emit(
@@ -122,7 +124,7 @@ class ImdbRepositoryImpl @Inject constructor(
                 val actor = api.findMovieorActor(query)
                     .toActorResponse()
                     .results[0]
-                val actorDetails = actor.toActor()
+                val actorDetails = actor.toSearchResultsDetails().toActor()
                 emit(Resource.Success(data = actorDetails))
             } catch (e: HttpException) {
                 emit(

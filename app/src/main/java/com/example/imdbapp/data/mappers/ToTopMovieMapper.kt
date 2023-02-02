@@ -7,8 +7,7 @@ import com.example.imdbapp.domain.model.TopMovie
 fun TopMovieDto.toTopMovie(): TopMovie {
     return TopMovie(
         chartRating = chartRating,
-        id = id.dropLast(1)
-            .drop(7) // this is done because of weird API response which includes redundant chars.
+        id = id.split('/').get(2).toString() // this is done because of weird API response which includes redundant chars.
     )
 }
 

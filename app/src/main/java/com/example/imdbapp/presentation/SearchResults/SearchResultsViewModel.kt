@@ -33,7 +33,7 @@ class SearchResultsViewModel @Inject constructor(
                 when (searchResult) {
                     is Resource.Success -> {
                         _state.value = SearchResultsState(
-                            searchResults = searchResult.data?.results ?: emptyList()
+                            searchResults = searchResult?.data?.results ?: emptyList()
                         )
                         unusuallyLongResponse = false
                     }

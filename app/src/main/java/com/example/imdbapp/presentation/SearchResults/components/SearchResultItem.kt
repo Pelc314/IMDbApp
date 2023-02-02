@@ -8,23 +8,23 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.example.imdbapp.data.remote.dto.searchresultsdto.SearchResultsDetailsDto
+import com.example.imdbapp.domain.model.SearchResultsDetails
 
 @Composable
 fun SearchResultItem(
-    results: SearchResultsDetailsDto,
+    results: SearchResultsDetails,
     modifier: Modifier = Modifier
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
-        Text(text = "Search Results:", modifier = Modifier.fillMaxWidth().height(30.dp))
-
         Row(
             modifier = modifier,
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceAround
         ) {
             Column(modifier = Modifier.width(250.dp)) {
-                if (results.akas.isNullOrEmpty()) {
+                val resultId = results.id ?: ""
+                val actorOrMovie = resultId[0] == 'n'
+                if (!actorOrMovie) {
                     Text(
                         text = "${results?.title ?: "null"}",
                         color = MaterialTheme.colors.onBackground

@@ -1,14 +1,19 @@
 package com.example.imdbapp.data.mappers // ktlint-disable filename
 
-import com.example.imdbapp.domain.model.Movie
+import com.example.imdbapp.data.remote.dto.searchresultsdto.SearchResultsDetailsDto
 import com.example.imdbapp.domain.model.SearchResultsDetails
 
-fun SearchResultsDetails.toMovie(): Movie {
-    return Movie(
+// ktlint-disable filename
+
+fun SearchResultsDetailsDto.toSearchResultsDetails(): SearchResultsDetails {
+    return SearchResultsDetails(
+        akas = akas,
         episode = episode,
-        id = id,
+        id = id.split('/').get(2).toString(),
         image = image,
+        knownFor = knownFor,
         nextEpisode = nextEpisode,
+        parentTitle = parentTitle,
         previousEpisode = previousEpisode,
         principals = principals,
         runningTimeInMinutes = runningTimeInMinutes,
@@ -16,6 +21,7 @@ fun SearchResultsDetails.toMovie(): Movie {
         seriesStartYear = seriesStartYear,
         title = title,
         titleType = titleType,
-        year = year
+        year = year,
+        name = name
     )
 }
