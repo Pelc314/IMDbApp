@@ -1,5 +1,6 @@
 package com.example.imdbapp.presentation.moviedetails
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.* // ktlint-disable no-wildcard-imports
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material.CircularProgressIndicator
@@ -49,21 +50,37 @@ fun MovieDetailsScreen(
                             .padding(start = 16.dp),
                         contentDescription = "movie image"
                     )
-                    Column() {
-                        Text(text = "Release year: ${state.movie?.year ?: "null"}")
-                        Text(text = "running time: ${state.movie?.runningTimeInMinutes ?: "null"} mins")
-                        Text(text = "Movie rating: to be implemented")
+                    Column(modifier = Modifier.padding(16.dp)) {
+                        Text(
+                            text = "Release year: ${state.movie?.year ?: "null"}",
+                            modifier = Modifier.padding(bottom = 16.dp)
+                        )
+                        Text(
+                            text = "running time: ${state.movie?.runningTimeInMinutes ?: "null"} mins",
+                            modifier = Modifier.padding(bottom = 16.dp)
+                        )
+                        Text(
+                            text = "Movie rating: to be implemented",
+                            modifier = Modifier.padding(bottom = 16.dp)
+                        )
                     }
                 }
-                Text(text = "Description : to be implemented")
+                Text(
+                    text = "Description : to be implemented",
+                    modifier = Modifier.padding(start = 16.dp)
+                )
                 LazyRow() {
                     items(state.movie?.principals?.size ?: 0) { i ->
                         MovieCastItem(
                             actorName = state.movie?.principals?.get(i)?.name ?: "null",
                             actorsCharacter = state.movie?.principals?.get(i)?.characters?.get(0)
                                 ?: "null",
-                            actorsImageUrl = state.movie?.principals?.get(i)?.id ?: "null"
+                            actorsImageUrl = state.movie?.principals?.get(i)?.id ?: "null",
+                            modifier = Modifier.padding(16.dp).clickable { Unit }
                         )
+                        if (i < (state.movie?.principals?.size ?: 0)) {
+                            Divider(modifier = Modifier.padding(vertical = 16.dp))
+                        }
                     }
                 }
             }
