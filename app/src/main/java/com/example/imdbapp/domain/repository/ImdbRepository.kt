@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.Flow
 interface ImdbRepository {
     suspend fun getTopRatedMovies(): Flow<Resource<List<TopMovie>>>
     suspend fun getMovieDetails(query: String): Flow<Resource<Movie>>
+    suspend fun getActor(query: String): Flow<Resource<Actor>>
     suspend fun getActorDetails(query: String): Flow<Resource<Actor>>
     suspend fun getSearchResults(query: String): Flow<Resource<SearchResults>>
 }

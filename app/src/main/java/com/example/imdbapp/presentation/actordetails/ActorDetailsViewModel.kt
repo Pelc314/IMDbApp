@@ -6,7 +6,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.imdbapp.core.util.Resource
-import com.example.imdbapp.domain.usecase.GetActorDetailsUseCase
+import com.example.imdbapp.domain.usecase.GetActorUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -14,7 +14,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ActorDetailsViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
-    private val getActorDetailsUseCase: GetActorDetailsUseCase
+    private val getActorDetailsUseCase: GetActorUseCase
 ) : ViewModel() {
     private var _state = mutableStateOf(ActorDetailsState())
     val state: State<ActorDetailsState> = _state

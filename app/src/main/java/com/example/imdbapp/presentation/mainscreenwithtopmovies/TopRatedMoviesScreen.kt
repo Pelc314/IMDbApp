@@ -53,6 +53,12 @@ fun TopRatedMoviesScreen(
                         )
                     })
                 )
+                Text(
+                    text = "Top Rated Movies",
+                    modifier = Modifier.padding(start = 16.dp),
+                    fontSize = 30.sp
+                )
+                Divider(modifier = Modifier.padding(horizontal = 16.dp))
                 LazyColumn(modifier = Modifier.fillMaxSize()) {
                     items(state.topRatedMovies.size) { i ->
                         val movie = state.topRatedMovies[i]

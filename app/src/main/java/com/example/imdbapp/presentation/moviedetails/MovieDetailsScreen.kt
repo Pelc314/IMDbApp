@@ -26,7 +26,7 @@ fun MovieDetailsScreen(
     movieId: String,
     viewModel: MovieDetailsViewModel = hiltViewModel()
 ) {
-    val state = viewModel.state.value
+    val state = viewModel.movieState.value
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier
