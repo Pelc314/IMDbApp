@@ -24,9 +24,13 @@ class TopRatedMoviesViewModel @Inject constructor(
     init {
         getTopRatedMovies()
     }
+
     fun updateState(query: String) {
         viewModelScope.launch {
-            _state.value = TopRatedMoviesState(topRatedMovies = _state.value.topRatedMovies, searchQuery = query)
+            _state.value = TopRatedMoviesState(
+                topRatedMovies = _state.value.topRatedMovies,
+                searchQuery = query
+            )
         }
     }
 

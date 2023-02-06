@@ -51,7 +51,9 @@ class ImdbRepositoryImpl @Inject constructor(
             } catch (e: HttpException) {
                 emit(
                     Resource.Error(
-                        e.message() ?: "Unexpected http Error, wrong return code from HTTP"
+                        /*e.message() ?: "Unexpected http Error, wrong return code from HTTP" fix error handling, when
+                           API gives error it isn't sent to the viewModel properly.*/
+                        "Unexpected http Error, wrong return code from HTTP"
                     )
                 )
             } catch (e: IOException) {
@@ -80,8 +82,6 @@ class ImdbRepositoryImpl @Inject constructor(
                     )
                 )
             } catch (e: IOException) {
-                Log.d("searchresultsIOException", "${e.message ?: "error"}")
-
                 emit(
                     Resource.Error(
                         e.message ?: "Unexpected IO exception, check your Internet connection 0_0"
@@ -105,9 +105,12 @@ class ImdbRepositoryImpl @Inject constructor(
             } catch (e: HttpException) {
                 emit(
                     Resource.Error(
-                        e.message() ?: "Unexpected http Error, wrong return code from HTTP"
+                        /*e.message() ?: "Unexpected http Error, wrong return code from HTTP" fix error handling, when
+                            API gives error it isn't sent to the viewModel properly.*/
+                        "Unexpected http Error, wrong return code from HTTP"
                     )
                 )
+                Log.d("resultsmovieDetails", "${e.message().isBlank()}")
             } catch (e: IOException) {
                 emit(
                     Resource.Error(
@@ -117,6 +120,7 @@ class ImdbRepositoryImpl @Inject constructor(
             }
         }
     }
+
     override suspend fun getActorDetails(query: String): Flow<Resource<Actor>> {
         return flow {
             emit(Resource.Loading())

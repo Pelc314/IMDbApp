@@ -33,7 +33,7 @@ fun MovieDetailsScreen(
                 .fillMaxSize()
                 .height(50.dp)
         ) {
-            if (!state.isLoading) {
+            if (!state.isLoading && state.error == "") {
                 Text(
                     text = state.movie?.title ?: "null",
                     modifier = Modifier.padding(start = 16.dp),
@@ -100,7 +100,8 @@ fun MovieDetailsScreen(
         } else if (state.error != "") {
             Text(
                 text = state.error,
-                color = MaterialTheme.colors.error
+                color = MaterialTheme.colors.error,
+                fontSize = 20.sp
             )
         }
     }

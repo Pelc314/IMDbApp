@@ -36,34 +36,41 @@ fun TopRatedMoviesScreen(
     val state = viewModel.state.value
 
     Box(modifier = Modifier.fillMaxSize()) {
-        Column(modifier = Modifier.fillMaxSize()) {
-            OutlinedTextField(
-                value = state.searchQuery,
-                onValueChange = { viewModel.updateState(it) },
-                modifier = Modifier.fillMaxWidth().padding(16.dp),
-                placeholder = { Text(text = "Search...") },
-                maxLines = 1,
-                singleLine = true,
-                keyboardActions = KeyboardActions(onDone = {
-                    navigator.navigate(
-                        SearchResultsScreenDestination(state.searchQuery)
-                    )
-                })
-            )
-            LazyColumn(modifier = Modifier.fillMaxSize()) {
-                items(state.topRatedMovies.size) { i ->
-                    val movie = state.topRatedMovies[i]
-                    MovieItem(
-                        movie = movie,
-                        modifier = Modifier.fillMaxWidth().clickable {
-                            navigator.navigate(
-                                MovieDetailsScreenDestination(movie.id ?: "")
+        if (!state.isLoading && state.error == "") {
+            Column(modifier = Modifier.fillMaxSize()) {
+                OutlinedTextField(
+                    value = state.searchQuery,
+                    onValueChange = { viewModel.updateState(it) },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    placeholder = { Text(text = "Search...") },
+                    maxLines = 1,
+                    singleLine = true,
+                    keyboardActions = KeyboardActions(onDone = {
+                        navigator.navigate(
+                            SearchResultsScreenDestination(state.searchQuery)
+                        )
+                    })
+                )
+                LazyColumn(modifier = Modifier.fillMaxSize()) {
+                    items(state.topRatedMovies.size) { i ->
+                        val movie = state.topRatedMovies[i]
+                        MovieItem(
+                            movie = movie,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable {
+                                    navigator.navigate(
+                                        MovieDetailsScreenDestination(movie.id ?: "")
 
-                            )
-                        }.padding(16.dp)
-                    )
-                    if (i < state.topRatedMovies.size) {
-                        Divider(modifier = Modifier.padding(horizontal = 16.dp))
+                                    )
+                                }
+                                .padding(16.dp)
+                        )
+                        if (i < state.topRatedMovies.size) {
+                            Divider(modifier = Modifier.padding(horizontal = 16.dp))
+                        }
                     }
                 }
             }
@@ -82,7 +89,8 @@ fun TopRatedMoviesScreen(
             } else if (state.error != "") {
                 Text(
                     text = state.error,
-                    color = MaterialTheme.colors.error
+                    color = MaterialTheme.colors.error,
+                    fontSize = 20.sp
                 )
             }
         }
