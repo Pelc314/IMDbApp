@@ -16,6 +16,8 @@ fun SearchResultsDetails.toMovie(): Movie {
         seriesStartYear = seriesStartYear,
         title = title,
         titleType = titleType,
-        year = year
+        year = year,
+        chartRating = chartRating,
+        description = description
     )
 }

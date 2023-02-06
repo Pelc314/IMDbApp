@@ -101,6 +101,12 @@ class ImdbRepositoryImpl @Inject constructor(
                 val movieDetails = movie
                     .toSearchResultsDetails()
                     .toMovie()
+                // REST API doesn't provide those two values in one endpoint
+                val ratingAndDescription =
+                    api.getOverviewDetails(movieDetails.id)
+
+                movieDetails.chartRating = ratingAndDescription.ratings
+                movieDetails.description = ratingAndDescription.plotOutline
                 emit(Resource.Success(data = movieDetails))
             } catch (e: HttpException) {
                 emit(

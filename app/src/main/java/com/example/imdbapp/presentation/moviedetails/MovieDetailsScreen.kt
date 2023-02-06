@@ -60,13 +60,13 @@ fun MovieDetailsScreen(
                             modifier = Modifier.padding(bottom = 16.dp)
                         )
                         Text(
-                            text = "Movie rating: to be implemented",
+                            text = "Movie rating: ${state.movie?.chartRating?.rating ?: "Unknown"}",
                             modifier = Modifier.padding(bottom = 16.dp)
                         )
                     }
                 }
                 Text(
-                    text = "Description : to be implemented",
+                    text = "Description : ${state.movie?.description?.text ?: "Not provided"}",
                     modifier = Modifier.padding(start = 16.dp)
                 )
                 LazyRow() {
