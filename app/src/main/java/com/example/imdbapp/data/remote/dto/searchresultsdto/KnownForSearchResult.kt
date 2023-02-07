@@ -1,6 +1,7 @@
 package com.example.imdbapp.data.remote.dto.searchresultsdto
 
-data class KnownFor(
+// may cause problems
+data class KnownForSearchResult(
     val cast: List<Cast>,
     val crew: List<Crew>,
     val disambiguation: String,

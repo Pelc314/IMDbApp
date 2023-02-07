@@ -25,6 +25,8 @@ fun ActorDetailsDto.toActorDetails(): Actor {
         heightCentimeters = heightCentimeters,
         miniBios = miniBios,
         name = name,
-        trademarks = trademarks
+        trademarks = trademarks,
+        nicknames = nicknames,
+        realName = realName
     )
 }

@@ -9,7 +9,7 @@ import javax.inject.Inject
 class GetActorUseCase @Inject constructor(
     val repository: ImdbRepository
 ) {
-    suspend fun getActorDetails(actorId: String): Flow<Resource<Actor>> {
+    suspend fun getActor(actorId: String): Flow<Resource<Actor>> {
         return repository.getActor(actorId)
     }
 }
