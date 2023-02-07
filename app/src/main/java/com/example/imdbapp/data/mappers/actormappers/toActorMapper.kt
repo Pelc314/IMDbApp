@@ -16,7 +16,7 @@ fun SearchResultsDetails.toActor(): Actor {
     )
 }
 
-fun ActorDetailsDto.toActorDetails():Actor{
+fun ActorDetailsDto.toActorDetails(): Actor {
     return Actor(
         id = id,
         image = image,

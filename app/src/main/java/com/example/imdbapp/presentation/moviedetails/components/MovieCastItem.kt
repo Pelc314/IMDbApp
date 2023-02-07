@@ -18,7 +18,7 @@ fun MovieCastItem(
 ) {
     Row(modifier = modifier) {
         AsyncImage(
-            model = "https://m.media-amazon.com/images/M/MV5BMjAwNDU3MzcyOV5BMl5BanBnXkFtZTcwMjc0MTIxMw@@._V1_.jpg",
+            model = actorsImageUrl,
             contentDescription = "actor thumbnail"
         )
         Column(modifier = Modifier.padding(start = 16.dp)) {

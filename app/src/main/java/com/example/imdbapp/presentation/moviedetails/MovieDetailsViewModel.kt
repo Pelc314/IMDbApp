@@ -10,7 +10,6 @@ import com.example.imdbapp.core.util.Resource
 import com.example.imdbapp.domain.usecase.GetActorDetailsUseCase
 import com.example.imdbapp.domain.usecase.GetMovieDetailsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -18,12 +17,13 @@ import javax.inject.Inject
 class MovieDetailsViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     private val getMovieDetailsUseCase: GetMovieDetailsUseCase,
-    private val getActorDetailsUseCase: GetActorDetailsUseCase,
+    private val getActorDetailsUseCase: GetActorDetailsUseCase
 ) : ViewModel() {
     private var _stateMovieDetails = mutableStateOf(MovieDetailsState())
     val movieState: State<MovieDetailsState> = _stateMovieDetails
     private var _stateActorsRow = mutableStateOf(ActorLazyRowState())
     val actorsLazyRowState: State<ActorLazyRowState> = _stateActorsRow
+    var actorsUrls: List<String> = listOf()
 
     init {
         savedStateHandle.get<String>("movieId")?.let { movieId ->
@@ -31,33 +31,39 @@ class MovieDetailsViewModel @Inject constructor(
         }
     }
 
-/*    private fun getActorImage(actorId: String) {
-        viewModelScope.launch() {
-            getActorDetailsUseCase.getActorDetails(actorId).collect() { details ->
-                when (details) {
-                    is Resource.Success -> {
-                        _stateActorsRow.value = MovieDetailsState(actor = details.=)
-                    }
-                    is Resource.Error -> {
-                        _stateActorsRow.value =
-                            ActorLazyRowState(error = details.message ?: "Unknown error!")
-
-                    }
-                    is Resource.Loading -> {
-                        ActorLazyRowState(isLoading = true)
-                    }
+    private suspend fun getActorImage(actorId: String) {
+        getActorDetailsUseCase.getActorDetails(actorId).collect() { urls ->
+            when (urls) {
+                is Resource.Success -> {
+                    actorsUrls += urls.data?.image?.url ?: "null"
+                }
+                is Resource.Error -> {
+                    _stateActorsRow.value =
+                        ActorLazyRowState(error = urls.message ?: "Unknown error!")
+                }
+                is Resource.Loading -> {
+                    Log.d("results getactorsimage", "run")
+                    ActorLazyRowState(isLoading = true)
                 }
             }
         }
-    }*/
+    }
 
     private fun getMovieDetails(movieId: String) {
         viewModelScope.launch {
             getMovieDetailsUseCase.getMovieDetails(movieId).collect() { results ->
-                Log.d("results", "${results.message}")
                 when (results) {
                     is Resource.Success -> {
                         _stateMovieDetails.value = MovieDetailsState(movie = results.data)
+
+                        _stateMovieDetails.value.movie?.principals?.let {
+                            repeat(it.size) { i ->
+                                getActorImage(it[i].id.split('/').get(2))
+                            }
+
+                            _stateActorsRow.value =
+                                ActorLazyRowState(actors = actorsUrls, isLoading = false)
+                        }
                     }
                     is Resource.Error -> {
                         _stateMovieDetails.value =

@@ -4,7 +4,7 @@ import com.example.imdbapp.domain.model.Movie
 
 data class MovieDetailsState(
     val movie: Movie? = null,
-    var actorsUrls: List<String>? = emptyList(),
+    val actorsUrls: List<String>? = emptyList(),
     val isLoading: Boolean = false,
     val isRefreshing: Boolean = false,
     val searchQuery: String = "",
