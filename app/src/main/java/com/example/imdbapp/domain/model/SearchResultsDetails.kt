@@ -1,5 +1,7 @@
 package com.example.imdbapp.domain.model
 
+import com.example.imdbapp.data.remote.dto.movieoratingandplotdto.PlotOutline
+import com.example.imdbapp.data.remote.dto.movieoratingandplotdto.Ratings
 import com.example.imdbapp.data.remote.dto.searchresultsdto.Image
 import com.example.imdbapp.data.remote.dto.searchresultsdto.KnownFor
 import com.example.imdbapp.data.remote.dto.searchresultsdto.ParentTitle
@@ -21,5 +23,8 @@ data class SearchResultsDetails(
     val title: String? = "default title",
     val titleType: String? = "",
     val year: Int? = 0,
-    val name: String? = "default name"
+    val name: String? = "default name",
+    val chartRating: Ratings? = null,
+    val description: PlotOutline? = null
+
 )

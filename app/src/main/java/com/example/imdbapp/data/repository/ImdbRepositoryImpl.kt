@@ -51,7 +51,9 @@ class ImdbRepositoryImpl @Inject constructor(
             } catch (e: HttpException) {
                 emit(
                     Resource.Error(
-                        e.message() ?: "Unexpected http Error, wrong return code from HTTP"
+
+                        e.message ?: "Unexpected http Error, wrong return code from HTTP"
+
                     )
                 )
             } catch (e: IOException) {
@@ -80,8 +82,6 @@ class ImdbRepositoryImpl @Inject constructor(
                     )
                 )
             } catch (e: IOException) {
-                Log.d("searchresultsIOException", "${e.message ?: "error"}")
-
                 emit(
                     Resource.Error(
                         e.message ?: "Unexpected IO exception, check your Internet connection 0_0"
@@ -101,7 +101,39 @@ class ImdbRepositoryImpl @Inject constructor(
                 val movieDetails = movie
                     .toSearchResultsDetails()
                     .toMovie()
+                // REST API doesn't provide those two values in one endpoint
+                val ratingAndDescription =
+                    api.getOverviewDetails(movieDetails.id)
+                movieDetails.chartRating = ratingAndDescription.ratings
+                movieDetails.description = ratingAndDescription.plotOutline
                 emit(Resource.Success(data = movieDetails))
+            } catch (e: HttpException) {
+                emit(
+                    Resource.Error(
+                        e.message ?: "Unexpected http Error, wrong return code from HTTP"
+
+                    )
+                )
+                Log.d("resultsmovieDetails", "${e.message().isBlank()}")
+            } catch (e: IOException) {
+                emit(
+                    Resource.Error(
+                        e.message ?: "Unexpected IO exception, check your Internet connection 0_0"
+                    )
+                )
+            }
+        }
+    }
+
+    override suspend fun getActor(query: String): Flow<Resource<Actor>> {
+        return flow {
+            emit(Resource.Loading())
+            try {
+                val actorResponse = api.findMovieorActor(query)
+                    .toActorResponse()
+                    .results[0]
+                val actor = actorResponse.toSearchResultsDetails().toActor()
+                emit(Resource.Success(data = actor))
             } catch (e: HttpException) {
                 emit(
                     Resource.Error(
@@ -117,19 +149,17 @@ class ImdbRepositoryImpl @Inject constructor(
             }
         }
     }
+
     override suspend fun getActorDetails(query: String): Flow<Resource<Actor>> {
         return flow {
             emit(Resource.Loading())
             try {
-                val actor = api.findMovieorActor(query)
-                    .toActorResponse()
-                    .results[0]
-                val actorDetails = actor.toSearchResultsDetails().toActor()
-                emit(Resource.Success(data = actorDetails))
+                val actor = api.getActorDetails(query).toActorDetails()
+                emit(Resource.Success(data = actor))
             } catch (e: HttpException) {
                 emit(
                     Resource.Error(
-                        e.message() ?: "Unexpected http Error, wrong return code from HTTP"
+                        e.message ?: "Unexpected http Error, wrong return code from HTTP"
                     )
                 )
             } catch (e: IOException) {

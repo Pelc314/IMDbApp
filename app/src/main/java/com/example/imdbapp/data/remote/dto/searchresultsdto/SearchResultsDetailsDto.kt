@@ -1,5 +1,8 @@
 package com.example.imdbapp.data.remote.dto.searchresultsdto
 
+import com.example.imdbapp.data.remote.dto.movieoratingandplotdto.PlotOutline
+import com.example.imdbapp.data.remote.dto.movieoratingandplotdto.Ratings
+
 data class SearchResultsDetailsDto(
     val akas: List<String> = emptyList(),
     val episode: Int = 0,
@@ -16,5 +19,7 @@ data class SearchResultsDetailsDto(
     val title: String = "",
     val titleType: String = "",
     val year: Int = 0,
-    val name: String = ""
+    val name: String = "",
+    val chartRating: Ratings? = null,
+    val description: PlotOutline? = null
 )

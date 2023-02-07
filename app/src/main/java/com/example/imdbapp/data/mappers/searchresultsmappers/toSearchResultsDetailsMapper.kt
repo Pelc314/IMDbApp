@@ -22,6 +22,8 @@ fun SearchResultsDetailsDto.toSearchResultsDetails(): SearchResultsDetails {
         title = title,
         titleType = titleType,
         year = year,
-        name = name
+        name = name,
+        chartRating = chartRating,
+        description = description
     )
 }
