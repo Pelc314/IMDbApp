@@ -55,12 +55,10 @@ class MovieDetailsViewModel @Inject constructor(
                 when (results) {
                     is Resource.Success -> {
                         _stateMovieDetails.value = MovieDetailsState(movie = results.data)
-
                         _stateMovieDetails.value.movie?.principals?.let {
                             repeat(it.size) { i ->
                                 getActorImage(it[i].id.split('/').get(2))
                             }
-
                             _stateActorsRow.value =
                                 ActorLazyRowState(actors = actorsUrls, isLoading = false)
                         }

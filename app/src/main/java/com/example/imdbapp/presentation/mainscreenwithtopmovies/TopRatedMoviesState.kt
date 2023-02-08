@@ -1,6 +1,6 @@
 package com.example.imdbapp.presentation.mainscreenwithtopmovies
 
-import com.example.imdbapp.domain.model.TopMovie
+import com.example.imdbapp.domain.model.movie.TopMovie
 
 data class TopRatedMoviesState(
     val topRatedMovies: List<TopMovie> = emptyList(),

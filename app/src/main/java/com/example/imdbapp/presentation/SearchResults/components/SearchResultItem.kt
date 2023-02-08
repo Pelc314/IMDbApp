@@ -8,7 +8,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.example.imdbapp.domain.model.SearchResultsDetails
+import com.example.imdbapp.domain.model.searchresults.SearchResultsDetails
 
 @Composable
 fun SearchResultItem(
@@ -26,7 +26,7 @@ fun SearchResultItem(
                 val actorOrMovie = resultId[0] == 'n'
                 if (!actorOrMovie) {
                     Text(
-                        text = "${results?.title ?: "null"}",
+                        text = results.title ?: "null",
                         color = MaterialTheme.colors.onBackground
                     )
                     Spacer(modifier = Modifier.height(8.dp))
@@ -37,7 +37,7 @@ fun SearchResultItem(
                     )
                 } else {
                     Text(
-                        text = "${results?.name ?: "null"}",
+                        text = results.name ?: "null",
                         color = MaterialTheme.colors.onBackground
                     )
                     Spacer(modifier = Modifier.height(8.dp))
@@ -45,7 +45,7 @@ fun SearchResultItem(
             }
             Column(modifier = Modifier.fillMaxSize()) {
                 AsyncImage(
-                    model = results?.image?.url ?: "null",
+                    model = results.image?.url ?: "null",
                     contentDescription = "movie thumbnail",
                     modifier = Modifier
                         .size(

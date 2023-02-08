@@ -1,7 +1,7 @@
 package com.example.imdbapp.domain.usecase
 
 import com.example.imdbapp.core.util.Resource
-import com.example.imdbapp.domain.model.SearchResults
+import com.example.imdbapp.domain.model.searchresults.SearchResults
 import com.example.imdbapp.domain.repository.ImdbRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

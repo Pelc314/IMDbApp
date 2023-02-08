@@ -1,13 +1,13 @@
-package com.example.imdbapp.data.mappers // ktlint-disable filename
+package com.example.imdbapp.data.mappers.moviemappers // ktlint-disable filename
 
 import com.example.imdbapp.data.local.TopMovieEntity
 import com.example.imdbapp.data.remote.dto.topmoviesdto.TopMovieDto
-import com.example.imdbapp.domain.model.TopMovie
+import com.example.imdbapp.domain.model.movie.TopMovie
 
 fun TopMovieDto.toTopMovie(): TopMovie {
     return TopMovie(
         chartRating = chartRating,
-        id = id.split('/').get(2).toString() // this is done because of weird API response which includes redundant chars.
+        id = id.split('/').get(2) // this is done because of weird API response which includes redundant chars.
     )
 }
 

@@ -1,30 +1,23 @@
-package com.example.imdbapp.domain.model
+package com.example.imdbapp.domain.model.movie
 
 import com.example.imdbapp.data.remote.dto.movieoratingandplotdto.PlotOutline
 import com.example.imdbapp.data.remote.dto.movieoratingandplotdto.Ratings
 import com.example.imdbapp.data.remote.dto.searchresultsdto.Image
-import com.example.imdbapp.data.remote.dto.searchresultsdto.KnownFor
-import com.example.imdbapp.data.remote.dto.searchresultsdto.ParentTitle
 import com.example.imdbapp.data.remote.dto.searchresultsdto.Principal
 
-data class SearchResultsDetails(
-    val akas: List<String>? = emptyList(),
+data class Movie(
     val episode: Int? = 0,
     val id: String? = "default id",
     val image: Image?,
-    val knownFor: List<KnownFor>? = emptyList(),
     val nextEpisode: String? = "",
-    val parentTitle: ParentTitle?,
     val previousEpisode: String? = "",
     val principals: List<Principal>? = emptyList(),
     val runningTimeInMinutes: Int? = 0,
     val season: Int? = 0,
     val seriesStartYear: Int? = 0,
     val title: String? = "default title",
-    val titleType: String? = "",
+    val titleType: String? = "default title type",
     val year: Int? = 0,
-    val name: String? = "default name",
-    val chartRating: Ratings? = null,
-    val description: PlotOutline? = null
-
+    var chartRating: Ratings? = null,
+    var description: PlotOutline? = null
 )

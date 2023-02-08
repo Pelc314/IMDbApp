@@ -8,7 +8,7 @@ data class SearchResultsDetailsDto(
     val episode: Int = 0,
     val id: String = "",
     val image: Image,
-    val knownFor: List<KnownFor> = emptyList(),
+    val knownFor: List<KnownForSearchResult> = emptyList(),
     val nextEpisode: String = "",
     val parentTitle: ParentTitle,
     val previousEpisode: String = "",

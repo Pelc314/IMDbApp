@@ -1,9 +1,10 @@
 package com.example.imdbapp.presentation.moviedetails
 
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.* // ktlint-disable no-wildcard-imports
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
@@ -13,17 +14,21 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.example.imdbapp.presentation.destinations.ActorDetailsScreenDestination
 import com.example.imdbapp.presentation.moviedetails.components.MovieCastItem
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @Composable
 @Destination
 fun MovieDetailsScreen(
+    navigator: DestinationsNavigator,
     movieId: String,
     viewModel: MovieDetailsViewModel = hiltViewModel()
 ) {
@@ -39,7 +44,8 @@ fun MovieDetailsScreen(
                 Text(
                     text = movieDetailsState.movie?.title ?: "null",
                     modifier = Modifier.padding(start = 16.dp),
-                    fontSize = 30.sp
+                    fontSize = 30.sp,
+                    fontWeight = FontWeight.Bold
                 )
                 Divider(modifier = Modifier.padding(horizontal = 16.dp))
                 Row() {
@@ -62,20 +68,30 @@ fun MovieDetailsScreen(
                             modifier = Modifier.padding(bottom = 16.dp)
                         )
                         Text(
-                            text = "Movie rating: ${movieDetailsState.movie?.chartRating?.rating ?: "Unknown"}",
+                            text = "Movie rating: ${movieDetailsState.movie?.chartRating?.rating ?: "Unknown"}/10",
                             modifier = Modifier.padding(bottom = 16.dp)
                         )
                     }
                 }
                 Text(
-                    text = "Description : ${movieDetailsState.movie?.description?.text ?: "Not provided"}",
-                    modifier = Modifier.padding(start = 16.dp, bottom = 16.dp)
+                    text = "Description : ",
+                    modifier = Modifier.padding(start = 16.dp),
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold
+                )
+                Text(
+                    text = " ${movieDetailsState.movie?.description?.text ?: "Not provided"}",
+                    modifier = Modifier.padding(start = 16.dp, bottom = 16.dp).verticalScroll(
+                        rememberScrollState(0)
+                    )
                 )
                 Divider(modifier = Modifier.padding(horizontal = 16.dp))
                 LazyRow(modifier = Modifier.height(175.dp)) {
                     items(movieDetailsState.movie?.principals?.size ?: 0) { i ->
                         if (!actorLazyRowState.isLoading && actorLazyRowState.error == "") {
-                            Log.d("results lazyrowstate", "${actorLazyRowState.isLoading}")
+                            val pickedActorId =
+                                movieDetailsState.movie?.principals?.get(i)?.id?.split('/')?.get(2)
+                                    ?: "null"
                             MovieCastItem(
                                 actorName = movieDetailsState.movie?.principals?.get(i)?.name
                                     ?: "null",
@@ -84,7 +100,11 @@ fun MovieDetailsScreen(
                                 )
                                     ?: "null",
                                 actorsImageUrl = actorLazyRowState.actors?.get(i) ?: "null",
-                                modifier = Modifier.padding(16.dp).clickable { Unit }
+                                modifier = Modifier.padding(16.dp).clickable {
+                                    navigator.navigate(
+                                        ActorDetailsScreenDestination(pickedActorId)
+                                    )
+                                }
                             )
                             if (i < (movieDetailsState.movie?.principals?.size ?: 0) - 1) {
                                 Divider(

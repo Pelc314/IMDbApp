@@ -1,4 +1,4 @@
-package com.example.imdbapp.presentation.mainscreenwithtopmovies
+package com.example.imdbapp.presentation.mainscreenwithtopmovies.components
 
 import androidx.compose.foundation.layout.* // ktlint-disable no-wildcard-imports
 import androidx.compose.material.MaterialTheme
@@ -8,7 +8,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.example.imdbapp.domain.model.TopMovie
+import com.example.imdbapp.domain.model.movie.TopMovie
 
 @Composable
 fun MovieItem(
