@@ -6,7 +6,7 @@ data class KnownForSearchResult(
     val crew: List<Crew>,
     val disambiguation: String,
     val id: String,
-    val summary: Summary,
+    val summary: Summary? = null,
     val title: String,
     val titleType: String,
     val year: Int

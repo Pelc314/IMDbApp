@@ -1,8 +1,9 @@
 package com.example.imdbapp.presentation.actordetails
 
+import android.util.Log
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.* // ktlint-disable no-wildcard-imports
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.CircularProgressIndicator
@@ -18,21 +19,28 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
+import com.example.imdbapp.presentation.actordetails.components.KnownForItem
+import com.example.imdbapp.presentation.destinations.MovieDetailsScreenDestination
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @Composable
 @Destination
 fun ActorDetailsScreen(
+    navigator: DestinationsNavigator,
     actorId: String,
     viewModel: ActorDetailsViewModel = hiltViewModel()
 ) {
-    val state = viewModel.state.value
+    val actorState = viewModel.actorState.value
+    val knownForState = viewModel.knownForState.value
 
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.TopCenter) {
-        if (!state.isLoading && state.error == "") {
-            Column() {
+        if (!actorState.isLoading && actorState.error == "") {
+            Column(
+                modifier = Modifier.verticalScroll(rememberScrollState(0))
+            ) {
                 Text(
-                    text = state.actor?.name ?: "Error",
+                    text = actorState.actor?.name ?: "Error",
                     modifier = Modifier.padding(start = 16.dp),
                     fontSize = 30.sp,
                     fontWeight = FontWeight.Bold
@@ -40,7 +48,7 @@ fun ActorDetailsScreen(
                 Divider(modifier = Modifier.padding(horizontal = 16.dp))
                 Row() {
                     AsyncImage(
-                        model = state.actor?.image?.url ?: "null",
+                        model = actorState.actor?.image?.url ?: "null",
                         contentDescription = "Actor's image",
                         modifier = Modifier
                             .height(300.dp)
@@ -49,64 +57,70 @@ fun ActorDetailsScreen(
                     )
                     Column(modifier = Modifier.padding(16.dp)) {
                         Text(
-                            text = "Birth date: ${state.actor?.birthDate ?: "Unknown"}",
+                            text = "Birth date: ${actorState.actor?.birthDate ?: "Unknown"}",
                             modifier = Modifier.padding(bottom = 16.dp, top = 10.dp)
                         )
-                        Text(
-                            text = "Birth place: ${state.actor?.birthPlace ?: "Unknown"}",
-                            modifier = Modifier.padding(bottom = 16.dp)
-                        )
-                        Text(
-                            text = "Height: ${state.actor?.heightCentimeters ?: "Unknown"} cm",
-                            modifier = Modifier.padding(bottom = 16.dp)
-                        )
-                        Text(
-                            text = "Real name: ${state.actor?.realName ?: "Unknown"}",
-                            modifier = Modifier.padding(bottom = 16.dp)
-                        )
-                        if (!((state.actor?.nicknames?.get(0).isNullOrBlank() ?: 0) as Boolean)) {
+                        if (actorState.actor?.deathDate != null) {
                             Text(
-                                text = "Nicknames: ",
+                                text = "Death date: ${actorState.actor.deathDate ?: "Unknown"}",
+                                modifier = Modifier.padding(bottom = 16.dp)
+                            )
+                        }
+                        if ((actorState.actor?.birthPlace?.isNullOrBlank() ?: true)) {
+                            Text(
+                                text = "Birth place: ${actorState.actor?.birthPlace ?: "Unknown"}",
+                                modifier = Modifier.padding(bottom = 16.dp)
+                            )
+                        }
+                        if (actorState.actor?.heightCentimeters != 0.0) {
+                            Text(
+                                text = "Height: ${actorState.actor?.heightCentimeters ?: "Unknown"} cm",
+                                modifier = Modifier.padding(bottom = 16.dp)
+                            )
+                        }
+                        if (!actorState.actor?.nicknames?.get(0).isNullOrBlank()) {
+                            Text(
+                                text = "Nickname: ",
                                 modifier = Modifier
                             )
-                            LazyColumn() {
-                                items(state.actor?.nicknames?.size ?: 0) { i ->
-                                    Text(text = state.actor?.nicknames?.get(i) ?: "Unknown")
-                                }
-                            }
+                            Text(text = actorState.actor?.nicknames?.get(0) ?: "Unknown")
                         }
                     }
                 }
+                Divider(modifier = Modifier.padding(horizontal = 16.dp))
                 Text(
-                    text = "About ${state.actor?.name}: ",
+                    text = "About ${actorState.actor?.name}: ",
                     modifier = Modifier.padding(start = 16.dp),
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    text = state.actor?.miniBios?.get(0)?.text ?: "Unknown",
+                    text = actorState.actor?.miniBios?.get(0)?.text ?: "Unknown",
                     modifier = Modifier
                         .height(150.dp)
                         .verticalScroll(rememberScrollState(0))
                         .padding(16.dp)
                         .align(Alignment.CenterHorizontally)
                 )
-                Divider(modifier = Modifier.padding(horizontal = 16.dp))
-                Text(
-                    text = "Characteristics: ",
-                    modifier = Modifier.padding(start = 16.dp),
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold
-                )
-                LazyColumn(
-                    modifier = Modifier
-                        .height(150.dp)
-                        .padding(16.dp)
-                ) {
-                    items(state.actor?.trademarks?.size ?: 0) { i ->
-                        Text(text = state.actor?.trademarks?.get(i) ?: "Unknown")
+                if (!actorState.actor?.trademarks?.get(0).isNullOrBlank()) {
+                    Divider(modifier = Modifier.padding(horizontal = 16.dp))
+                    Text(
+                        text = "Characteristics: ",
+                        modifier = Modifier.padding(start = 16.dp),
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                    LazyColumn(
+                        modifier = Modifier
+                            .height(150.dp)
+                            .padding(16.dp)
+                    ) {
+                        items(actorState.actor?.trademarks?.size ?: 0) { i ->
+                            Text(text = actorState.actor?.trademarks?.get(i) ?: "Unknown")
+                        }
                     }
                 }
+                Divider(modifier = Modifier.padding(horizontal = 16.dp))
                 Text(
                     text = "Known for: ",
                     modifier = Modifier.padding(start = 16.dp),
@@ -115,27 +129,95 @@ fun ActorDetailsScreen(
                 )
                 LazyColumn(
                     modifier = Modifier
-                        .height(150.dp)
+                        .height(600.dp)
                         .padding(16.dp)
                 ) {
-                    items(state.actor?.knownFor?.size ?: 0) { i ->
-                        Text(text = state.actor?.knownFor?.get(i)?.id ?: "Unknown")
+                    Log.d("itemCount", "${actorState.actor?.knownFor?.size ?: 0}")
+                    var itemCount = 5
+                    if (!knownForState.isLoading) itemCount = knownForState.knownFor?.size ?: 0
+                    items(itemCount) { i ->
+                        if (!knownForState.isLoading) {
+                            if (((knownForState.knownFor?.isEmpty() ?: 0) as Boolean)) {
+                                Text(
+                                    text = "Didn't play in any popular movie",
+                                    modifier = Modifier.padding(16.dp)
+                                )
+                            } else {
+                                knownForState.knownFor?.let {
+                                    KnownForItem(
+                                        knownFor = it.get(i),
+                                        modifier = Modifier
+                                            .height(150.dp)
+                                            .width(400.dp)
+                                            .padding(16.dp)
+                                            .clickable {
+                                                navigator.navigate(
+                                                    MovieDetailsScreenDestination(
+                                                        knownForState.knownFor[i].title?.id?.split(
+                                                            '/'
+                                                        )?.get(2) ?: ""
+                                                    )
+                                                )
+                                            }
+                                    )
+                                }
+                                if (i < (knownForState.knownFor?.size ?: 0) - 1) {
+                                    Divider(modifier = Modifier.padding(horizontal = 16.dp))
+                                }
+                            }
+                        } else {
+                            Row(
+                                modifier = Modifier
+                                    .padding(horizontal = 16.dp)
+                                    .width(200.dp)
+                            ) {
+                                Column(modifier = Modifier.align(Alignment.CenterVertically)) {
+                                    CircularProgressIndicator(
+                                        modifier = Modifier
+                                            .align(Alignment.CenterHorizontally)
+                                            .padding(top = 70.dp)
+                                    )
+                                    Spacer(modifier = Modifier.height(10.dp))
+                                    Text(
+                                        text = knownForState.message,
+                                        color = Color.Red,
+                                        fontSize = 20.sp
+                                    )
+                                }
+                                Text(
+                                    text = knownForState.error,
+                                    color = MaterialTheme.colors.error,
+                                    fontSize = 20.sp
+                                )
+                                Divider(modifier = Modifier.padding(horizontal = 16.dp))
+                            }
+                            if (i < (knownForState.knownFor?.size ?: 0) - 1) {
+                                Divider(
+                                    modifier = Modifier
+                                        .padding(vertical = 8.dp)
+                                        .width(2.dp)
+                                        .fillParentMaxHeight()
+                                )
+                            }
+                        }
                     }
                 }
             }
-            if (state.isLoading) {
+        }
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            if (actorState.isLoading) {
                 Column() {
                     CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
                     Spacer(modifier = Modifier.height(10.dp))
                     Text(
-                        text = state.message,
+                        text = actorState.message,
                         color = Color.Red,
                         fontSize = 20.sp
                     )
                 }
-            } else if (state.error != "") {
+            } else if (actorState.error != "") {
                 Text(
-                    text = state.error,
+                    text = actorState.error,
                     color = MaterialTheme.colors.error
                 )
             }

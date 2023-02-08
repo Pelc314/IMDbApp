@@ -68,7 +68,7 @@ fun MovieDetailsScreen(
                             modifier = Modifier.padding(bottom = 16.dp)
                         )
                         Text(
-                            text = "Movie rating: ${movieDetailsState.movie?.chartRating?.rating ?: "Unknown"}",
+                            text = "Movie rating: ${movieDetailsState.movie?.chartRating?.rating ?: "Unknown"}/10",
                             modifier = Modifier.padding(bottom = 16.dp)
                         )
                     }

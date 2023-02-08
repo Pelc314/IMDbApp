@@ -1,14 +1,23 @@
 package com.example.imdbapp.data.repository
 
-import android.util.Log
 import com.example.imdbapp.core.util.Resource
 import com.example.imdbapp.data.local.TopMoviesDatabase
 import com.example.imdbapp.data.mappers.* // ktlint-disable no-wildcard-imports
+import com.example.imdbapp.data.mappers.actormappers.toActor
+import com.example.imdbapp.data.mappers.actormappers.toActorDetails
+import com.example.imdbapp.data.mappers.actormappers.toActorResponse
+import com.example.imdbapp.data.mappers.actormappers.toKnownFor
+import com.example.imdbapp.data.mappers.moviemappers.toMovie
+import com.example.imdbapp.data.mappers.moviemappers.toMovieResponse
+import com.example.imdbapp.data.mappers.moviemappers.toTopMovie
+import com.example.imdbapp.data.mappers.moviemappers.toTopMovieEntity
+import com.example.imdbapp.data.mappers.searchresultsmappers.toSearchResults
 import com.example.imdbapp.data.remote.IMDbApi
-import com.example.imdbapp.domain.model.Actor
-import com.example.imdbapp.domain.model.Movie
-import com.example.imdbapp.domain.model.SearchResults
-import com.example.imdbapp.domain.model.TopMovie
+import com.example.imdbapp.domain.model.actor.Actor
+import com.example.imdbapp.domain.model.actor.KnownFor
+import com.example.imdbapp.domain.model.movie.Movie
+import com.example.imdbapp.domain.model.movie.TopMovie
+import com.example.imdbapp.domain.model.searchresults.SearchResults
 import com.example.imdbapp.domain.repository.ImdbRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -71,14 +80,11 @@ class ImdbRepositoryImpl @Inject constructor(
             emit(Resource.Loading())
             try {
                 val searchResults = api.findMovieorActor(query.lowercase())
-                Log.d("searchresults", "${searchResults.results[0].title}")
                 emit(Resource.Success(data = searchResults.toSearchResults()))
             } catch (e: HttpException) {
-                Log.d("searchresultsHtttpException", "${e.message()}")
-
                 emit(
                     Resource.Error(
-                        e.message() ?: "Unexpected http Error, wrong return code from HTTP"
+                        e.message ?: "Unexpected http Error, wrong return code from HTTP"
                     )
                 )
             } catch (e: IOException) {
@@ -114,7 +120,6 @@ class ImdbRepositoryImpl @Inject constructor(
 
                     )
                 )
-                Log.d("resultsmovieDetails", "${e.message().isBlank()}")
             } catch (e: IOException) {
                 emit(
                     Resource.Error(
@@ -137,7 +142,7 @@ class ImdbRepositoryImpl @Inject constructor(
             } catch (e: HttpException) {
                 emit(
                     Resource.Error(
-                        e.message() ?: "Unexpected http Error, wrong return code from HTTP"
+                        e.message ?: "Unexpected http Error, wrong return code from HTTP"
                     )
                 )
             } catch (e: IOException) {
@@ -156,6 +161,28 @@ class ImdbRepositoryImpl @Inject constructor(
             try {
                 val actor = api.getActorDetails(query).toActorDetails()
                 emit(Resource.Success(data = actor))
+            } catch (e: HttpException) {
+                emit(
+                    Resource.Error(
+                        e.message ?: "Unexpected http Error, wrong return code from HTTP"
+                    )
+                )
+            } catch (e: IOException) {
+                emit(
+                    Resource.Error(
+                        e.message ?: "Unexpected IO exception, check your Internet connection 0_0"
+                    )
+                )
+            }
+        }
+    }
+
+    override suspend fun getKnownFor(query: String): Flow<Resource<List<KnownFor>>> {
+        return flow {
+            emit(Resource.Loading())
+            try {
+                val knownForList = api.getKnownFor(query).map { it.toKnownFor() }
+                emit(Resource.Success(data = knownForList))
             } catch (e: HttpException) {
                 emit(
                     Resource.Error(

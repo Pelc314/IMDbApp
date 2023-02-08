@@ -1,6 +1,6 @@
 package com.example.imdbapp.presentation.SearchResults
 
-import com.example.imdbapp.domain.model.SearchResultsDetails
+import com.example.imdbapp.domain.model.searchresults.SearchResultsDetails
 
 data class SearchResultsState(
     val searchResults: List<SearchResultsDetails> = emptyList(),

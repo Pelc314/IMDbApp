@@ -1,4 +1,4 @@
-package com.example.imdbapp.domain.model
+package com.example.imdbapp.domain.model.movie
 
 data class TopMovie(
     val id: String? = "default id",

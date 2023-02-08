@@ -1,7 +1,7 @@
-package com.example.imdbapp.data.mappers // ktlint-disable filename
+package com.example.imdbapp.data.mappers.moviemappers // ktlint-disable filename
 
-import com.example.imdbapp.domain.model.Movie
-import com.example.imdbapp.domain.model.SearchResultsDetails
+import com.example.imdbapp.domain.model.movie.Movie
+import com.example.imdbapp.domain.model.searchresults.SearchResultsDetails
 
 fun SearchResultsDetails.toMovie(): Movie {
     return Movie(
