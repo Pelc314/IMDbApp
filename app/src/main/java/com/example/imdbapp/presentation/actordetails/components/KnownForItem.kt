@@ -7,34 +7,34 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
+import com.example.imdbapp.core.util.CustomAsyncImage
 import com.example.imdbapp.domain.model.actor.KnownFor
 
 @Composable
 fun KnownForItem(
     knownFor: KnownFor,
-    modifier: Modifier
+    modifier: Modifier,
 ) {
     Row(modifier = modifier) {
         Column() {
-            AsyncImage(model = knownFor.title?.image?.url, contentDescription = "Movie thumbnail")
+            CustomAsyncImage(url = knownFor.title?.image?.url ?: "")
         }
         Column() {
             Text(
                 text = knownFor.title?.title ?: "",
-                modifier = Modifier.padding(start = 16.dp, bottom = 6.dp)
+                modifier = Modifier.padding(start = 16.dp, bottom = 6.dp),
             )
             Text(
                 text = knownFor.imdbRating.toString(),
-                modifier = Modifier.padding(start = 16.dp, bottom = 6.dp)
+                modifier = Modifier.padding(start = 16.dp, bottom = 6.dp),
             )
             Text(
                 text = "Plays as: ${knownFor.summary?.characters?.get(0)}",
-                modifier = Modifier.padding(start = 16.dp, bottom = 6.dp)
+                modifier = Modifier.padding(start = 16.dp, bottom = 6.dp),
             )
             Text(
                 text = knownFor.summary?.displayYear ?: "",
-                modifier = Modifier.padding(start = 16.dp, bottom = 6.dp)
+                modifier = Modifier.padding(start = 16.dp, bottom = 6.dp),
             )
         }
     }

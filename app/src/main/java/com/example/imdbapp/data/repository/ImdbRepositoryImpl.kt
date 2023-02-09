@@ -2,16 +2,16 @@ package com.example.imdbapp.data.repository
 
 import com.example.imdbapp.core.util.Resource
 import com.example.imdbapp.data.local.TopMoviesDatabase
-import com.example.imdbapp.data.mappers.* // ktlint-disable no-wildcard-imports
-import com.example.imdbapp.data.mappers.actormappers.toActor
-import com.example.imdbapp.data.mappers.actormappers.toActorDetails
-import com.example.imdbapp.data.mappers.actormappers.toActorResponse
-import com.example.imdbapp.data.mappers.actormappers.toKnownFor
-import com.example.imdbapp.data.mappers.moviemappers.toMovie
-import com.example.imdbapp.data.mappers.moviemappers.toMovieResponse
-import com.example.imdbapp.data.mappers.moviemappers.toTopMovie
-import com.example.imdbapp.data.mappers.moviemappers.toTopMovieEntity
-import com.example.imdbapp.data.mappers.searchresultsmappers.toSearchResults
+import com.example.imdbapp.data.mapper.* // ktlint-disable no-wildcard-imports
+import com.example.imdbapp.data.mapper.actormappers.toActor
+import com.example.imdbapp.data.mapper.actormappers.toActorDetails
+import com.example.imdbapp.data.mapper.actormappers.toActorResponse
+import com.example.imdbapp.data.mapper.actormappers.toKnownFor
+import com.example.imdbapp.data.mapper.moviemappers.toMovie
+import com.example.imdbapp.data.mapper.moviemappers.toMovieResponse
+import com.example.imdbapp.data.mapper.moviemappers.toTopMovie
+import com.example.imdbapp.data.mapper.moviemappers.toTopMovieEntity
+import com.example.imdbapp.data.mapper.searchresultsmappers.toSearchResults
 import com.example.imdbapp.data.remote.IMDbApi
 import com.example.imdbapp.domain.model.actor.Actor
 import com.example.imdbapp.domain.model.actor.KnownFor
@@ -27,7 +27,7 @@ import javax.inject.Inject
 
 class ImdbRepositoryImpl @Inject constructor(
     private val api: IMDbApi,
-    private val db: TopMoviesDatabase
+    private val db: TopMoviesDatabase,
 ) : ImdbRepository {
 
     private val dao = db.movieDatabaseDao
@@ -61,15 +61,15 @@ class ImdbRepositoryImpl @Inject constructor(
                 emit(
                     Resource.Error(
 
-                        e.message ?: "Unexpected http Error, wrong return code from HTTP"
+                        e.message ?: "Unexpected http Error, wrong return code from HTTP",
 
-                    )
+                    ),
                 )
             } catch (e: IOException) {
                 emit(
                     Resource.Error(
-                        e.message ?: "Unexpected IO exception, check your Internet connection 0_0"
-                    )
+                        e.message ?: "Unexpected IO exception, check your Internet connection 0_0",
+                    ),
                 )
             }
         }
@@ -84,14 +84,14 @@ class ImdbRepositoryImpl @Inject constructor(
             } catch (e: HttpException) {
                 emit(
                     Resource.Error(
-                        e.message ?: "Unexpected http Error, wrong return code from HTTP"
-                    )
+                        e.message ?: "Unexpected http Error, wrong return code from HTTP",
+                    ),
                 )
             } catch (e: IOException) {
                 emit(
                     Resource.Error(
-                        e.message ?: "Unexpected IO exception, check your Internet connection 0_0"
-                    )
+                        e.message ?: "Unexpected IO exception, check your Internet connection 0_0",
+                    ),
                 )
             }
         }
@@ -116,15 +116,14 @@ class ImdbRepositoryImpl @Inject constructor(
             } catch (e: HttpException) {
                 emit(
                     Resource.Error(
-                        e.message ?: "Unexpected http Error, wrong return code from HTTP"
-
-                    )
+                        e.message ?: "Unexpected http Error, wrong return code from HTTP",
+                    ),
                 )
             } catch (e: IOException) {
                 emit(
                     Resource.Error(
-                        e.message ?: "Unexpected IO exception, check your Internet connection 0_0"
-                    )
+                        e.message ?: "Unexpected IO exception, check your Internet connection 0_0",
+                    ),
                 )
             }
         }
@@ -142,14 +141,14 @@ class ImdbRepositoryImpl @Inject constructor(
             } catch (e: HttpException) {
                 emit(
                     Resource.Error(
-                        e.message ?: "Unexpected http Error, wrong return code from HTTP"
-                    )
+                        e.message ?: "Unexpected http Error, wrong return code from HTTP",
+                    ),
                 )
             } catch (e: IOException) {
                 emit(
                     Resource.Error(
-                        e.message ?: "Unexpected IO exception, check your Internet connection 0_0"
-                    )
+                        e.message ?: "Unexpected IO exception, check your Internet connection 0_0",
+                    ),
                 )
             }
         }
@@ -164,14 +163,14 @@ class ImdbRepositoryImpl @Inject constructor(
             } catch (e: HttpException) {
                 emit(
                     Resource.Error(
-                        e.message ?: "Unexpected http Error, wrong return code from HTTP"
-                    )
+                        e.message ?: "Unexpected http Error, wrong return code from HTTP",
+                    ),
                 )
             } catch (e: IOException) {
                 emit(
                     Resource.Error(
-                        e.message ?: "Unexpected IO exception, check your Internet connection 0_0"
-                    )
+                        e.message ?: "Unexpected IO exception, check your Internet connection 0_0",
+                    ),
                 )
             }
         }
@@ -186,14 +185,14 @@ class ImdbRepositoryImpl @Inject constructor(
             } catch (e: HttpException) {
                 emit(
                     Resource.Error(
-                        e.message ?: "Unexpected http Error, wrong return code from HTTP"
-                    )
+                        e.message ?: "Unexpected http Error, wrong return code from HTTP",
+                    ),
                 )
             } catch (e: IOException) {
                 emit(
                     Resource.Error(
-                        e.message ?: "Unexpected IO exception, check your Internet connection 0_0"
-                    )
+                        e.message ?: "Unexpected IO exception, check your Internet connection 0_0",
+                    ),
                 )
             }
         }

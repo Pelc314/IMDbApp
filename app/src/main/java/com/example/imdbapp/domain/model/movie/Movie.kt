@@ -19,5 +19,6 @@ data class Movie(
     val titleType: String? = "default title type",
     val year: Int? = 0,
     var chartRating: Ratings? = null,
-    var description: PlotOutline? = null
+    var description: PlotOutline? = null,
+    val numberOfEpisodes: Int? = 0,
 )

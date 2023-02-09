@@ -25,7 +25,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 fun SearchResultsScreen(
     navigator: DestinationsNavigator,
     results: String,
-    viewModel: SearchResultsViewModel = hiltViewModel()
+    viewModel: SearchResultsViewModel = hiltViewModel(),
 ) {
     val state = viewModel.state.value
     Box(modifier = Modifier.fillMaxSize()) {
@@ -34,7 +34,7 @@ fun SearchResultsScreen(
                 Text(
                     text = "Search Results: $results",
                     modifier = Modifier.padding(start = 16.dp),
-                    fontSize = 30.sp
+                    fontSize = 30.sp,
                 )
                 Divider(modifier = Modifier.padding(horizontal = 16.dp))
             }
@@ -54,7 +54,7 @@ fun SearchResultsScreen(
                                     navigator.navigate(MovieDetailsScreenDestination(resultId))
                                 }
                             }
-                            .padding(16.dp)
+                            .padding(16.dp),
                     )
                     if (i < state.searchResults.size) {
                         Divider(modifier = Modifier.padding(horizontal = 16.dp))
@@ -71,13 +71,13 @@ fun SearchResultsScreen(
                     Text(
                         text = state.message,
                         color = Color.Red,
-                        fontSize = 20.sp
+                        fontSize = 20.sp,
                     )
                 }
             } else if (state.error != "") {
                 Text(
                     text = state.error,
-                    color = MaterialTheme.colors.error
+                    color = MaterialTheme.colors.error,
                 )
             }
         }
