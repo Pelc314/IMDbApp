@@ -1,4 +1,4 @@
-package com.example.imdbapp.data.mappers // ktlint-disable filename
+package com.example.imdbapp.data.mapper // ktlint-disable filename
 
 import com.example.imdbapp.data.remote.dto.searchresultsdto.SearchResultsDetailsDto
 import com.example.imdbapp.domain.model.searchresults.SearchResultsDetails
@@ -24,6 +24,7 @@ fun SearchResultsDetailsDto.toSearchResultsDetails(): SearchResultsDetails {
         year = year,
         name = name,
         chartRating = chartRating,
-        description = description
+        description = description,
+        numberOfEpisodes = numberOfEpisodes,
     )
 }

@@ -1,4 +1,4 @@
-package com.example.imdbapp.data.mappers.actormappers // ktlint-disable filename
+package com.example.imdbapp.data.mapper.actormappers // ktlint-disable filename
 
 import com.example.imdbapp.data.remote.dto.actorknownfor.KnownForDto
 import com.example.imdbapp.data.remote.dto.searchresultsdto.KnownForSearchResult
@@ -10,12 +10,12 @@ fun KnownForDto.toKnownFor(): KnownFor {
         imdbRating = imdbRating,
         summary = summary,
         title = title,
-        whereToWatch = whereToWatch
+        whereToWatch = whereToWatch,
     )
 }
 
 fun KnownForSearchResult.toKnownForList(): KnownFor {
     return KnownFor(
-        summary = summary
+        summary = summary,
     )
 }

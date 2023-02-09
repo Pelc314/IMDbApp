@@ -25,6 +25,7 @@ data class SearchResultsDetails(
     val year: Int? = 0,
     val name: String? = "default name",
     val chartRating: Ratings? = null,
-    val description: PlotOutline? = null
+    val description: PlotOutline? = null,
+    val numberOfEpisodes: Int? = 0,
 
 )

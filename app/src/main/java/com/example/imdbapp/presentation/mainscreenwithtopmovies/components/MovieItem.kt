@@ -7,37 +7,31 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
+import com.example.imdbapp.core.util.CustomAsyncImage
 import com.example.imdbapp.domain.model.movie.TopMovie
 
 @Composable
 fun MovieItem(
     movie: TopMovie,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceAround
+        horizontalArrangement = Arrangement.SpaceAround,
     ) {
         Column(modifier = Modifier.width(250.dp)) {
             Text(
                 text = "${movie.title}",
-                color = MaterialTheme.colors.onBackground
+                color = MaterialTheme.colors.onBackground,
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(text = "${movie.chartRating}")
         }
         Column(modifier = Modifier.fillMaxSize()) {
-            AsyncImage(
-                model = movie.imageUrl ?: "",
-                contentDescription = "movie thumbnail",
-                modifier = Modifier
-                    .size(
-                        width = 90.dp,
-                        height = 110.dp
-                    )
-                    .align(Alignment.End)
+            CustomAsyncImage(
+                url = movie.imageUrl ?: "",
+                modifier = Modifier.size(width = 75.dp, height = 110.dp).align(Alignment.End),
             )
         }
     }

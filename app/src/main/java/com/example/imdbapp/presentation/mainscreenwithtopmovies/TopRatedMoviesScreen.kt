@@ -33,7 +33,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Destination(start = true)
 fun TopRatedMoviesScreen(
     navigator: DestinationsNavigator,
-    viewModel: TopRatedMoviesViewModel = hiltViewModel()
+    viewModel: TopRatedMoviesViewModel = hiltViewModel(),
 ) {
     val state = viewModel.state.value
 
@@ -51,15 +51,15 @@ fun TopRatedMoviesScreen(
                     singleLine = true,
                     keyboardActions = KeyboardActions(onDone = {
                         navigator.navigate(
-                            SearchResultsScreenDestination(state.searchQuery)
+                            SearchResultsScreenDestination(state.searchQuery),
                         )
-                    })
+                    }),
                 )
                 Text(
                     text = "Top Rated Movies",
                     modifier = Modifier.padding(start = 16.dp),
                     fontSize = 30.sp,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
                 )
                 Divider(modifier = Modifier.padding(horizontal = 16.dp))
                 LazyColumn(modifier = Modifier.fillMaxSize()) {
@@ -71,11 +71,11 @@ fun TopRatedMoviesScreen(
                                 .fillMaxWidth()
                                 .clickable {
                                     navigator.navigate(
-                                        MovieDetailsScreenDestination(movie.id ?: "")
+                                        MovieDetailsScreenDestination(movie.id ?: ""),
 
                                     )
                                 }
-                                .padding(16.dp)
+                                .padding(16.dp),
                         )
                         if (i < state.topRatedMovies.size) {
                             Divider(modifier = Modifier.padding(horizontal = 16.dp))
@@ -92,14 +92,14 @@ fun TopRatedMoviesScreen(
                     Text(
                         text = state.message,
                         color = Color.Red,
-                        fontSize = 20.sp
+                        fontSize = 20.sp,
                     )
                 }
             } else if (state.error != "") {
                 Text(
                     text = state.error,
                     color = MaterialTheme.colors.error,
-                    fontSize = 20.sp
+                    fontSize = 20.sp,
                 )
             }
         }

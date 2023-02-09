@@ -1,4 +1,4 @@
-package com.example.imdbapp.data.mappers.actormappers // ktlint-disable filename
+package com.example.imdbapp.data.mapper.actormappers // ktlint-disable filename
 
 import com.example.imdbapp.data.remote.dto.actordetailsdto.ActorDetailsDto
 import com.example.imdbapp.domain.model.actor.Actor
@@ -12,7 +12,7 @@ fun SearchResultsDetails.toActor(): Actor {
         titleType = titleType,
         year = year,
         name = name,
-        knownFor = knownFor?.map { it.toKnownForList() }
+        knownFor = knownFor?.map { it.toKnownForList() },
     )
 }
 
@@ -29,6 +29,6 @@ fun ActorDetailsDto.toActorDetails(): Actor {
         nicknames = nicknames,
         realName = realName,
         deathDate = deathDate,
-        knownFor = knownFor
+        knownFor = knownFor,
     )
 }

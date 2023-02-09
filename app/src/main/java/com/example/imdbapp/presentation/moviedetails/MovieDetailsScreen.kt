@@ -13,13 +13,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
+import com.example.imdbapp.core.util.CustomAsyncImage
 import com.example.imdbapp.presentation.destinations.ActorDetailsScreenDestination
 import com.example.imdbapp.presentation.moviedetails.components.MovieCastItem
 import com.ramcosta.composedestinations.annotation.Destination
@@ -30,7 +29,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 fun MovieDetailsScreen(
     navigator: DestinationsNavigator,
     movieId: String,
-    viewModel: MovieDetailsViewModel = hiltViewModel()
+    viewModel: MovieDetailsViewModel = hiltViewModel(),
 ) {
     val movieDetailsState = viewModel.movieState.value
     val actorLazyRowState = viewModel.actorsLazyRowState.value
@@ -38,52 +37,56 @@ fun MovieDetailsScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .height(50.dp)
+                .height(50.dp),
         ) {
             if (!movieDetailsState.isLoading && movieDetailsState.error == "") {
                 Text(
                     text = movieDetailsState.movie?.title ?: "null",
                     modifier = Modifier.padding(start = 16.dp),
                     fontSize = 30.sp,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
                 )
                 Divider(modifier = Modifier.padding(horizontal = 16.dp))
                 Row() {
-                    AsyncImage(
-                        model = ImageRequest.Builder(LocalContext.current)
-                            .data(movieDetailsState.movie?.image?.url ?: "null")
-                            .crossfade(true)
-                            .build(),
+                    CustomAsyncImage(
+                        url = movieDetailsState.movie?.image?.url ?: "null",
                         modifier = Modifier.height(300.dp).width(200.dp)
-                            .padding(start = 16.dp),
-                        contentDescription = "movie image"
+                            .padding(start = 16.dp, bottom = 16.dp, top = 16.dp),
+                        roundedCorner = 20.dp,
+                        ContentScale.Crop,
                     )
                     Column(modifier = Modifier.padding(16.dp)) {
                         Text(
                             text = "Release year: ${movieDetailsState.movie?.year ?: "null"}",
-                            modifier = Modifier.padding(bottom = 16.dp)
+                            modifier = Modifier.padding(bottom = 16.dp),
                         )
                         Text(
                             text = "running time: ${movieDetailsState.movie?.runningTimeInMinutes ?: "null"} mins",
-                            modifier = Modifier.padding(bottom = 16.dp)
+                            modifier = Modifier.padding(bottom = 16.dp),
                         )
                         Text(
                             text = "Movie rating: ${movieDetailsState.movie?.chartRating?.rating ?: "Unknown"}/10",
-                            modifier = Modifier.padding(bottom = 16.dp)
+                            modifier = Modifier.padding(bottom = 16.dp),
                         )
+                        if ((movieDetailsState.movie?.titleType ?: "") == "tvSeries") {
+                            Text(
+                                text = "Number of episodes: ${movieDetailsState.movie?.numberOfEpisodes ?: "Unknown"}",
+                                modifier = Modifier.padding(bottom = 16.dp),
+                            )
+                        }
                     }
                 }
                 Text(
                     text = "Description : ",
                     modifier = Modifier.padding(start = 16.dp),
                     fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
                 )
                 Text(
                     text = " ${movieDetailsState.movie?.description?.text ?: "Not provided"}",
                     modifier = Modifier.padding(start = 16.dp, bottom = 16.dp).verticalScroll(
-                        rememberScrollState(0)
-                    )
+                        rememberScrollState(0),
+                    ),
                 )
                 Divider(modifier = Modifier.padding(horizontal = 16.dp))
                 LazyRow(modifier = Modifier.height(175.dp)) {
@@ -96,20 +99,20 @@ fun MovieDetailsScreen(
                                 actorName = movieDetailsState.movie?.principals?.get(i)?.name
                                     ?: "null",
                                 actorsCharacter = movieDetailsState.movie?.principals?.get(i)?.characters?.get(
-                                    0
+                                    0,
                                 )
                                     ?: "null",
                                 actorsImageUrl = actorLazyRowState.actors?.get(i) ?: "null",
                                 modifier = Modifier.padding(16.dp).clickable {
                                     navigator.navigate(
-                                        ActorDetailsScreenDestination(pickedActorId)
+                                        ActorDetailsScreenDestination(pickedActorId),
                                     )
-                                }
+                                },
                             )
                             if (i < (movieDetailsState.movie?.principals?.size ?: 0) - 1) {
                                 Divider(
                                     modifier = Modifier.padding(vertical = 8.dp).width(2.dp)
-                                        .fillParentMaxHeight()
+                                        .fillParentMaxHeight(),
                                 )
                             }
                         } else {
@@ -117,26 +120,26 @@ fun MovieDetailsScreen(
                                 Column(modifier = Modifier.align(Alignment.CenterHorizontally)) {
                                     CircularProgressIndicator(
                                         modifier = Modifier.align(Alignment.CenterHorizontally)
-                                            .padding(top = 70.dp)
+                                            .padding(top = 70.dp),
                                     )
                                     Spacer(modifier = Modifier.height(10.dp))
                                     Text(
                                         text = movieDetailsState.message,
                                         color = Color.Red,
-                                        fontSize = 20.sp
+                                        fontSize = 20.sp,
                                     )
                                 }
                                 Text(
                                     text = movieDetailsState.error,
                                     color = MaterialTheme.colors.error,
-                                    fontSize = 20.sp
+                                    fontSize = 20.sp,
                                 )
                             }
 
                             if (i < (movieDetailsState.movie?.principals?.size ?: 0) - 1) {
                                 Divider(
                                     modifier = Modifier.padding(vertical = 8.dp).width(2.dp)
-                                        .fillParentMaxHeight()
+                                        .fillParentMaxHeight(),
                                 )
                             }
                         }
@@ -153,14 +156,14 @@ fun MovieDetailsScreen(
                 Text(
                     text = movieDetailsState.message,
                     color = Color.Red,
-                    fontSize = 20.sp
+                    fontSize = 20.sp,
                 )
             }
         } else if (movieDetailsState.error != "") {
             Text(
                 text = movieDetailsState.error,
                 color = MaterialTheme.colors.error,
-                fontSize = 20.sp
+                fontSize = 20.sp,
             )
         }
     }

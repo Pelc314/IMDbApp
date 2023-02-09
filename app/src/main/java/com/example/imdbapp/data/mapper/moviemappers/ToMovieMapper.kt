@@ -1,4 +1,4 @@
-package com.example.imdbapp.data.mappers.moviemappers // ktlint-disable filename
+package com.example.imdbapp.data.mapper.moviemappers // ktlint-disable filename
 
 import com.example.imdbapp.domain.model.movie.Movie
 import com.example.imdbapp.domain.model.searchresults.SearchResultsDetails
@@ -18,6 +18,7 @@ fun SearchResultsDetails.toMovie(): Movie {
         titleType = titleType,
         year = year,
         chartRating = chartRating,
-        description = description
+        description = description,
+        numberOfEpisodes = numberOfEpisodes,
     )
 }
