@@ -54,11 +54,8 @@ fun SearchResultsScreen(
                                     navigator.navigate(MovieDetailsScreenDestination(resultId))
                                 }
                             }
-                            .padding(16.dp),
+                            .padding(start = 16.dp, top = 16.dp, end = 16.dp),
                     )
-                    if (i < state.searchResults.size) {
-                        Divider(modifier = Modifier.padding(horizontal = 16.dp))
-                    }
                 }
             }
         }

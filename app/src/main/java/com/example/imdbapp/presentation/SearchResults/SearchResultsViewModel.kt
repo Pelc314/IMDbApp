@@ -14,7 +14,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchResultsViewModel @Inject constructor(
     private val getSearchResultsUseCase: GetSearchResultsUseCase,
-    savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
     private var _state = mutableStateOf(SearchResultsState())
     val state: State<SearchResultsState> = _state
@@ -33,14 +33,14 @@ class SearchResultsViewModel @Inject constructor(
                 when (searchResult) {
                     is Resource.Success -> {
                         _state.value = SearchResultsState(
-                            searchResults = searchResult?.data?.results ?: emptyList()
+                            searchResults = searchResult?.data?.results ?: emptyList(),
                         )
                         unusuallyLongResponse = false
                     }
                     is Resource.Error -> {
                         _state.value =
                             SearchResultsState(
-                                error = searchResult.message ?: "Unexpected Error 0_0"
+                                error = searchResult.message ?: "Unexpected Error 0_0",
                             )
                         unusuallyLongResponse = false
                     }
@@ -52,7 +52,7 @@ class SearchResultsViewModel @Inject constructor(
                             if (unusuallyLongResponse) {
                                 _state.value = SearchResultsState(
                                     isLoading = true,
-                                    message = "Please wait, unusually long response"
+                                    message = "Please wait, unusually long response",
                                 )
                             }
                         }

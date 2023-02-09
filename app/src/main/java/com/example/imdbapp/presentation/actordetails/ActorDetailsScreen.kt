@@ -1,10 +1,12 @@
 package com.example.imdbapp.presentation.actordetails
 
 import android.util.Log
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.* // ktlint-disable no-wildcard-imports
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Divider
@@ -16,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -112,9 +115,17 @@ fun ActorDetailsScreen(
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Bold,
                     )
+                    var height: Dp
+                    when (actorState.actor?.trademarks?.size) {
+                        1 -> height = 70.dp
+                        2 -> height = 90.dp
+                        3 -> height = 110.dp
+                        4 -> height = 140.dp
+                        else -> height = 200.dp
+                    }
                     LazyColumn(
                         modifier = Modifier
-                            .height(150.dp)
+                            .height(height = height)
                             .padding(16.dp),
                     ) {
                         items(actorState.actor?.trademarks?.size ?: 0) { i ->
@@ -151,7 +162,7 @@ fun ActorDetailsScreen(
                                         modifier = Modifier
                                             .height(150.dp)
                                             .width(400.dp)
-                                            .padding(16.dp)
+                                            .padding(top = 16.dp, start = 16.dp, end = 16.dp)
                                             .clickable {
                                                 navigator.navigate(
                                                     MovieDetailsScreenDestination(
@@ -163,15 +174,15 @@ fun ActorDetailsScreen(
                                             },
                                     )
                                 }
-                                if (i < (knownForState.knownFor?.size ?: 0) - 1) {
-                                    Divider(modifier = Modifier.padding(horizontal = 16.dp))
-                                }
                             }
                         } else {
                             Row(
                                 modifier = Modifier
                                     .padding(horizontal = 16.dp)
-                                    .width(200.dp),
+                                    .width(200.dp).background(
+                                        color = Color.LightGray,
+                                        shape = RoundedCornerShape(16.dp),
+                                    ),
                             ) {
                                 Column(modifier = Modifier.align(Alignment.CenterVertically)) {
                                     CircularProgressIndicator(
@@ -192,14 +203,6 @@ fun ActorDetailsScreen(
                                     fontSize = 20.sp,
                                 )
                                 Divider(modifier = Modifier.padding(horizontal = 16.dp))
-                            }
-                            if (i < (knownForState.knownFor?.size ?: 0) - 1) {
-                                Divider(
-                                    modifier = Modifier
-                                        .padding(vertical = 8.dp)
-                                        .width(2.dp)
-                                        .fillParentMaxHeight(),
-                                )
                             }
                         }
                     }
