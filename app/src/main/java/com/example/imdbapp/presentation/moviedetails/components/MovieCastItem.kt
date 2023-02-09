@@ -27,7 +27,7 @@ fun MovieCastItem(
     ) {
         CustomAsyncImage(url = actorsImageUrl)
         Column(modifier = Modifier.padding(start = 16.dp)) {
-            Text(text = actorName, modifier = Modifier.padding(bottom = 16.dp, top = 16.dp))
+            Text(text = actorName, modifier = Modifier.padding(bottom = 16.dp, top = 16.dp, end = 16.dp))
             Text(text = "Plays: $actorsCharacter", modifier = Modifier.padding(end = 16.dp))
         }
     }

@@ -105,7 +105,7 @@ fun MovieDetailsScreen(
                                 )
                                     ?: "null",
                                 actorsImageUrl = actorLazyRowState.actors?.get(i) ?: "null",
-                                modifier = Modifier.padding(16.dp).clickable {
+                                modifier = Modifier.padding(top = 16.dp, start = 16.dp).clickable {
                                     navigator.navigate(
                                         ActorDetailsScreenDestination(pickedActorId),
                                     )
