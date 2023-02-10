@@ -1,12 +1,15 @@
 package com.example.imdbapp.presentation.mainscreenwithtopmovies
 
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.imdbapp.core.util.Resource
 import com.example.imdbapp.domain.usecase.GetMovieDetailsUseCase
+import com.example.imdbapp.domain.usecase.GetTopMovieUseCase
 import com.example.imdbapp.domain.usecase.GetTopMoviesUseCase
+import com.example.imdbapp.presentation.mainscreenwithtopmovies.components.MovieItemState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.* // ktlint-disable no-wildcard-imports
 import javax.inject.Inject
@@ -15,9 +18,15 @@ import javax.inject.Inject
 class TopRatedMoviesViewModel @Inject constructor(
     private val getMoviesUseCase: GetTopMoviesUseCase,
     private val getMovieDetailsUseCase: GetMovieDetailsUseCase,
+    private val getTopRatedMovieUseCase: GetTopMovieUseCase,
 ) : ViewModel() {
-    private var _state = mutableStateOf(TopRatedMoviesState())
-    val state: State<TopRatedMoviesState> = _state
+    private var _topRatedMoviesListState = mutableStateOf(TopRatedMoviesState())
+    val topRatedMoviesListState: State<TopRatedMoviesState> = _topRatedMoviesListState
+    private var _topRatedMovieState = mutableListOf(mutableStateOf(MovieItemState()))
+
+    //    private var _topRatedMovieState = listOf<mutableStateOf(MovieItemState())>()
+//    val topRatedMovieState: List<State<MovieItemState>> = _topRatedMovieState
+    val topRatedMovieState: MutableList<MutableState<MovieItemState>> = _topRatedMovieState
     private val scope = CoroutineScope(Dispatchers.IO)
     private var unusuallyLongResponse: Boolean = false
 
@@ -27,10 +36,30 @@ class TopRatedMoviesViewModel @Inject constructor(
 
     fun updateState(query: String) {
         viewModelScope.launch {
-            _state.value = TopRatedMoviesState(
-                topRatedMovies = _state.value.topRatedMovies,
+            _topRatedMoviesListState.value = TopRatedMoviesState(
+                topRatedMovies = _topRatedMoviesListState.value.topRatedMovies,
                 searchQuery = query,
             )
+        }
+    }
+
+    fun getTopRatedMovie(movieId: String, position: Int) {
+        viewModelScope.launch {
+            getTopRatedMovieUseCase.getTopMovie(movieId).collect() { result ->
+                when (result) {
+                    is Resource.Success -> {
+                        _topRatedMovieState[position].value =
+                            MovieItemState(topRatedMovieItem = result.data)
+                    }
+                    is Resource.Error -> {
+                        _topRatedMovieState[position].value =
+                            MovieItemState(error = result.message ?: "Unexpected error!!")
+                    }
+                    is Resource.Loading -> {
+                        _topRatedMovieState[position].value = MovieItemState(isLoading = true)
+                    }
+                }
+            }
         }
     }
 
@@ -39,22 +68,22 @@ class TopRatedMoviesViewModel @Inject constructor(
             getMoviesUseCase.getTopMovies().collect() { result ->
                 when (result) {
                     is Resource.Success -> {
-                        _state.value =
+                        _topRatedMoviesListState.value =
                             TopRatedMoviesState(topRatedMovies = result.data ?: emptyList())
                         unusuallyLongResponse = false
                     }
                     is Resource.Error -> {
-                        _state.value =
+                        _topRatedMoviesListState.value =
                             TopRatedMoviesState(error = result.message ?: "Unexpected Error 0_0")
                         unusuallyLongResponse = false
                     }
                     is Resource.Loading -> {
-                        _state.value = TopRatedMoviesState(isLoading = true)
+                        _topRatedMoviesListState.value = TopRatedMoviesState(isLoading = true)
                         unusuallyLongResponse = true
                         scope.launch {
                             Thread.sleep(5000L)
                             if (unusuallyLongResponse) {
-                                _state.value = TopRatedMoviesState(
+                                _topRatedMoviesListState.value = TopRatedMoviesState(
                                     isLoading = true,
                                     message = "Please wait, unusually long response",
                                 )

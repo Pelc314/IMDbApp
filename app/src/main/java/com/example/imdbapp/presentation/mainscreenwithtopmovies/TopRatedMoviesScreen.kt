@@ -1,5 +1,6 @@
 package com.example.imdbapp.presentation.mainscreenwithtopmovies
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box // ktlint-disable no-wildcard-imports
 import androidx.compose.foundation.layout.Column
@@ -35,13 +36,14 @@ fun TopRatedMoviesScreen(
     navigator: DestinationsNavigator,
     viewModel: TopRatedMoviesViewModel = hiltViewModel(),
 ) {
-    val state = viewModel.state.value
+    val moviesListState = viewModel.topRatedMoviesListState.value
+    val movieState = viewModel.topRatedMovieState
 
     Box(modifier = Modifier.fillMaxSize()) {
-        if (!state.isLoading && state.error == "") {
+        if (!moviesListState.isLoading && moviesListState.error == "") {
             Column(modifier = Modifier.fillMaxSize()) {
                 OutlinedTextField(
-                    value = state.searchQuery,
+                    value = moviesListState.searchQuery,
                     onValueChange = { viewModel.updateState(it) },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -51,7 +53,7 @@ fun TopRatedMoviesScreen(
                     singleLine = true,
                     keyboardActions = KeyboardActions(onDone = {
                         navigator.navigate(
-                            SearchResultsScreenDestination(state.searchQuery),
+                            SearchResultsScreenDestination(moviesListState.searchQuery),
                         )
                     }),
                 )
@@ -62,16 +64,24 @@ fun TopRatedMoviesScreen(
                     fontWeight = FontWeight.Bold,
                 )
                 Divider(modifier = Modifier.padding(horizontal = 16.dp))
+                Log.d("FetchedMovieScreenSize", "${moviesListState.topRatedMovies.size}")
                 LazyColumn(modifier = Modifier.fillMaxSize()) {
-                    items(state.topRatedMovies.size) { i ->
-                        val movie = state.topRatedMovies[i]
+                    items(moviesListState.topRatedMovies.size) { i ->
+                        val movie = moviesListState.topRatedMovies[i]
+                        viewModel.getTopRatedMovie(movie.id ?: "null", i)
+                        Log.d(
+                            "FetchedMovieData",
+                            "${movie.id},${movie.title},${movieState[i].value.topRatedMovieItem?.title},${movieState[i].value.topRatedMovieItem?.id},$i,${movieState.size}",
+                        )
                         MovieItem(
-                            movie = movie,
+                            movieItemState = movieState[i].value,
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .clickable {
                                     navigator.navigate(
-                                        MovieDetailsScreenDestination(movie.id ?: ""),
+                                        MovieDetailsScreenDestination(
+                                            movieState[i].value.topRatedMovieItem?.id ?: "",
+                                        ),
                                     )
                                 }
                                 .padding(start = 16.dp, top = 16.dp, end = 16.dp),
@@ -81,19 +91,19 @@ fun TopRatedMoviesScreen(
             }
         }
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            if (state.isLoading) {
+            if (moviesListState.isLoading) {
                 Column() {
                     CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
                     Spacer(modifier = Modifier.height(10.dp))
                     Text(
-                        text = state.message,
+                        text = moviesListState.message,
                         color = Color.Red,
                         fontSize = 20.sp,
                     )
                 }
-            } else if (state.error != "") {
+            } else if (moviesListState.error != "") {
                 Text(
-                    text = state.error,
+                    text = moviesListState.error,
                     color = MaterialTheme.colors.error,
                     fontSize = 20.sp,
                 )

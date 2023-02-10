@@ -10,7 +10,6 @@ import com.example.imdbapp.data.mapper.actormappers.toKnownFor
 import com.example.imdbapp.data.mapper.moviemappers.toMovie
 import com.example.imdbapp.data.mapper.moviemappers.toMovieResponse
 import com.example.imdbapp.data.mapper.moviemappers.toTopMovie
-import com.example.imdbapp.data.mapper.moviemappers.toTopMovieEntity
 import com.example.imdbapp.data.mapper.searchresultsmappers.toSearchResults
 import com.example.imdbapp.data.remote.IMDbApi
 import com.example.imdbapp.domain.model.actor.Actor
@@ -35,33 +34,57 @@ class ImdbRepositoryImpl @Inject constructor(
     override suspend fun getTopRatedMovies(): Flow<Resource<List<TopMovie>>> {
         return flow {
             emit(Resource.Loading())
-            val localResponseTopMovies = dao.getTopMovies().map { it.toTopMovie() }
-            if (!localResponseTopMovies.isEmpty()) {
-                emit(Resource.Success(data = localResponseTopMovies))
-                return@flow
-            }
+//            val localResponseTopMovies = dao.getTopMovies().map { it.toTopMovie() }
+//            if (!localResponseTopMovies.isEmpty()) {
+//                emit(Resource.Success(data = localResponseTopMovies))
+//                return@flow
+//            }
             try {
-                var topMoviesRemote: List<TopMovie> = api.getTopRatedMovies().map { it.toTopMovie() }
-                topMoviesRemote = topMoviesRemote.dropLast(240)
-                repeat(topMoviesRemote.size) { i ->
-                    val remoteResponseTopMovie =
-                        api.findMovieorActor(topMoviesRemote[i].id ?: "null")
-                            .toMovieResponse()
-                            .results[0]
-                    topMoviesRemote[i].imageUrl = remoteResponseTopMovie.image?.url
-                    topMoviesRemote[i].title = remoteResponseTopMovie.title
-                }
+                var topMoviesRemote: List<TopMovie> =
+                    api.getTopRatedMovies().map { it.toTopMovie() }
                 emit(Resource.Success(topMoviesRemote))
-                topMoviesRemote.let { topMovies ->
-                    dao.clearTopMovies()
-                    dao.insertTopMovies(topMovies.map { it.toTopMovieEntity() })
-                }
+                topMoviesRemote = topMoviesRemote.dropLast(248)
+//                topMoviesRemote = topMoviesRemote.dropLast(240)
+//                repeat(topMoviesRemote.size) { i ->
+//                    val remoteResponseTopMovie =
+//                        api.findMovieorActor(topMoviesRemote[i].id ?: "null")
+//                            .toMovieResponse()
+//                            .results[0]
+//                    topMoviesRemote[i].imageUrl = remoteResponseTopMovie.image?.url
+//                    topMoviesRemote[i].title = remoteResponseTopMovie.title
+//                }
+                emit(Resource.Success(topMoviesRemote))
+//                topMoviesRemote.let { topMovies ->
+//                    dao.clearTopMovies()
+//                    dao.insertTopMovies(topMovies.map { it.toTopMovieEntity() })
+//                }
             } catch (e: HttpException) {
                 emit(
                     Resource.Error(
-
                         e.message ?: "Unexpected http Error, wrong return code from HTTP",
+                    ),
+                )
+            } catch (e: IOException) {
+                emit(
+                    Resource.Error(
+                        e.message ?: "Unexpected IO exception, check your Internet connection 0_0",
+                    ),
+                )
+            }
+        }
+    }
 
+    override suspend fun getTopRatedMovie(movieId: String): Flow<Resource<TopMovie>> {
+        return flow {
+            emit(Resource.Loading())
+            try {
+                val topMovie =
+                    api.findMovieorActor(movieId).toMovieResponse().results[0].toTopMovie()
+                emit(Resource.Success(data = topMovie))
+            } catch (e: HttpException) {
+                emit(
+                    Resource.Error(
+                        e.message ?: "Unexpected http Error, wrong return code from HTTP",
                     ),
                 )
             } catch (e: IOException) {
