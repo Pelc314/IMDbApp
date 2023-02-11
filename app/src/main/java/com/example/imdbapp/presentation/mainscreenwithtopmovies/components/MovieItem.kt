@@ -11,13 +11,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.imdbapp.core.util.CustomAsyncImage
+import com.example.imdbapp.presentation.mainscreenwithtopmovies.TopRatedMoviesViewModel
 
 @Composable
 fun MovieItem(
     modifier: Modifier = Modifier,
     movieItemState: MovieItemState,
-) {
+//    position:Int,
+    ) {
+//    val movieItemState = viewModel.listOfMovieStates[position]
     Row(
         modifier = modifier.background(color = Color.LightGray, shape = RoundedCornerShape(16.dp)),
         verticalAlignment = Alignment.CenterVertically,

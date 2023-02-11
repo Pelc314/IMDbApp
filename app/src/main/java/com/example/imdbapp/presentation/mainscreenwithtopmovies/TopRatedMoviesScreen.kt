@@ -37,7 +37,7 @@ fun TopRatedMoviesScreen(
     viewModel: TopRatedMoviesViewModel = hiltViewModel(),
 ) {
     val moviesListState = viewModel.topRatedMoviesListState.value
-    val movieState = viewModel.topRatedMovieState
+    val movieState = viewModel.listOfMovieStates
 
     Box(modifier = Modifier.fillMaxSize()) {
         if (!moviesListState.isLoading && moviesListState.error == "") {
@@ -64,28 +64,35 @@ fun TopRatedMoviesScreen(
                     fontWeight = FontWeight.Bold,
                 )
                 Divider(modifier = Modifier.padding(horizontal = 16.dp))
-                Log.d("FetchedMovieScreenSize", "${moviesListState.topRatedMovies.size}")
-                LazyColumn(modifier = Modifier.fillMaxSize()) {
+                Log.d("FetchedMovieScreenSize1", "${moviesListState.topRatedMovies.size}")
+                if (!moviesListState.isLoading) {
+                    LazyColumn(modifier = Modifier.fillMaxSize()) {
                     items(moviesListState.topRatedMovies.size) { i ->
-                        val movie = moviesListState.topRatedMovies[i]
-                        viewModel.getTopRatedMovie(movie.id ?: "null", i)
-                        Log.d(
-                            "FetchedMovieData",
-                            "${movie.id},${movie.title},${movieState[i].value.topRatedMovieItem?.title},${movieState[i].value.topRatedMovieItem?.id},$i,${movieState.size}",
-                        )
-                        MovieItem(
-                            movieItemState = movieState[i].value,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clickable {
-                                    navigator.navigate(
-                                        MovieDetailsScreenDestination(
-                                            movieState[i].value.topRatedMovieItem?.id ?: "",
-                                        ),
-                                    )
-                                }
-                                .padding(start = 16.dp, top = 16.dp, end = 16.dp),
-                        )
+//                        items(2) { i ->
+                            val movie = moviesListState.topRatedMovies[i]
+                            viewModel.getTopRatedMovie(movie.id ?: "null", i)
+                            Log.d(
+                                "FetchedMovieData",
+                                "${movie.id},${movieState[i].value.topRatedMovieItem?.title},$i,${movieState.size}",
+                            )
+                            Log.d(
+                                "FetchedMovieScreenSize2",
+                                "${moviesListState.topRatedMovies.size}"
+                            )
+                            MovieItem(
+                                movieItemState = movieState[i].value,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .clickable {
+                                        navigator.navigate(
+                                            MovieDetailsScreenDestination(
+                                                movieState[i].value.topRatedMovieItem?.id ?: "",
+                                            ),
+                                        )
+                                    }
+                                    .padding(start = 16.dp, top = 16.dp, end = 16.dp),
+                            )
+                        }
                     }
                 }
             }
