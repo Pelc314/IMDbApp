@@ -1,9 +1,8 @@
-# IMDbApp (Work in progress)
+# IMDbApp
 This app is an alternative to the IMDB app which has many useful functions but can be a bit overwhelming when you just want to get info about a certain actor or a movie.
 This app is made with Jetpack Compose, Clean architecture (MVVM), caching and uses a REST api to fetch it's data.
 
-### In the app you are able to:
-<br/>
+### Functionality of the app consists of:
 
 ## Browse the top movies
 
