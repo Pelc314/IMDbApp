@@ -17,7 +17,7 @@ This app is made with Jetpack Compose, Clean architecture (MVVM), caching and us
 
 ## Get details about an actor who played in that movie
 <br/>
-<img src="https://github.com/Pelc314/IMDbApp/blob/master/givenactorinthrmovie.gif" width="300">
+<img src="https://github.com/Pelc314/IMDbApp/blob/master/givenactorinthemovie.gif" width="300">
 <br/>
 
 ## Search for interesting title or actor
