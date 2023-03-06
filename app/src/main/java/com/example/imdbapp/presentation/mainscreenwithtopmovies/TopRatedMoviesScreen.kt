@@ -72,14 +72,10 @@ fun TopRatedMoviesScreen(
                                 .clickable {
                                     navigator.navigate(
                                         MovieDetailsScreenDestination(movie.id ?: ""),
-
                                     )
                                 }
-                                .padding(16.dp),
+                                .padding(start = 16.dp, top = 16.dp, end = 16.dp),
                         )
-                        if (i < state.topRatedMovies.size) {
-                            Divider(modifier = Modifier.padding(horizontal = 16.dp))
-                        }
                     }
                 }
             }

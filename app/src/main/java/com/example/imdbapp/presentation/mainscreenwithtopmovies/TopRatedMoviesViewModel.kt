@@ -14,7 +14,7 @@ import javax.inject.Inject
 @HiltViewModel
 class TopRatedMoviesViewModel @Inject constructor(
     private val getMoviesUseCase: GetTopMoviesUseCase,
-    private val getMovieDetailsUseCase: GetMovieDetailsUseCase
+    private val getMovieDetailsUseCase: GetMovieDetailsUseCase,
 ) : ViewModel() {
     private var _state = mutableStateOf(TopRatedMoviesState())
     val state: State<TopRatedMoviesState> = _state
@@ -29,7 +29,7 @@ class TopRatedMoviesViewModel @Inject constructor(
         viewModelScope.launch {
             _state.value = TopRatedMoviesState(
                 topRatedMovies = _state.value.topRatedMovies,
-                searchQuery = query
+                searchQuery = query,
             )
         }
     }
@@ -56,7 +56,7 @@ class TopRatedMoviesViewModel @Inject constructor(
                             if (unusuallyLongResponse) {
                                 _state.value = TopRatedMoviesState(
                                     isLoading = true,
-                                    message = "Please wait, unusually long response"
+                                    message = "Please wait, unusually long response",
                                 )
                             }
                         }

@@ -1,11 +1,14 @@
 package com.example.imdbapp.presentation.SearchResults.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.* // ktlint-disable no-wildcard-imports
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -19,7 +22,10 @@ fun SearchResultItem(
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
         Row(
-            modifier = modifier,
+            modifier = modifier.background(
+                color = Color.LightGray,
+                shape = RoundedCornerShape(16.dp),
+            ),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceAround,
         ) {
@@ -32,12 +38,14 @@ fun SearchResultItem(
                             text = "Movie",
                             color = MaterialTheme.colors.onBackground,
                             fontWeight = FontWeight.Bold,
+                            modifier = Modifier.padding(start = 10.dp),
                         )
                     } else if (results.titleType == "tvSeries") {
                         Text(
                             text = "Series",
                             color = MaterialTheme.colors.onBackground,
                             fontWeight = FontWeight.Bold,
+                            modifier = Modifier.padding(start = 10.dp),
                         )
                     } else {
                         val type = (
@@ -48,18 +56,27 @@ fun SearchResultItem(
                             text = type,
                             color = MaterialTheme.colors.onBackground,
                             fontWeight = FontWeight.Bold,
+                            modifier = Modifier.padding(start = 10.dp),
+
                         )
                     }
                     Text(
                         text = results.title ?: "null",
                         color = MaterialTheme.colors.onBackground,
+                        modifier = Modifier.padding(start = 10.dp),
+
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     if (results.runningTimeInMinutes == 0) {
-                        Text(text = "Movie length: Unknown")
+                        Text(
+                            text = "Movie length: Unknown",
+                            modifier = Modifier.padding(start = 10.dp),
+                        )
                     } else {
                         Text(
                             text = "Movie length: ${results.runningTimeInMinutes} min",
+                            modifier = Modifier.padding(start = 10.dp),
+
                         )
                     }
                 } else {
@@ -67,10 +84,14 @@ fun SearchResultItem(
                         text = "Actor",
                         color = MaterialTheme.colors.onBackground,
                         fontWeight = FontWeight.Bold,
+                        modifier = Modifier.padding(start = 10.dp),
+
                     )
                     Text(
                         text = results.name ?: "null",
                         color = MaterialTheme.colors.onBackground,
+                        modifier = Modifier.padding(start = 10.dp),
+
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                 }

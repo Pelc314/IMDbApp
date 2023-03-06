@@ -41,8 +41,7 @@ class ImdbRepositoryImpl @Inject constructor(
                 return@flow
             }
             try {
-                var topMoviesRemote: List<TopMovie> =
-                    api.getTopRatedMovies().map { it.toTopMovie() }
+                var topMoviesRemote: List<TopMovie> = api.getTopRatedMovies().map { it.toTopMovie() }
                 topMoviesRemote = topMoviesRemote.dropLast(240)
                 repeat(topMoviesRemote.size) { i ->
                     val remoteResponseTopMovie =

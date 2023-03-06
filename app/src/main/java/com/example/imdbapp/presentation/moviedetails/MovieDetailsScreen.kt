@@ -1,9 +1,11 @@
 package com.example.imdbapp.presentation.moviedetails
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.* // ktlint-disable no-wildcard-imports
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Divider
@@ -103,20 +105,21 @@ fun MovieDetailsScreen(
                                 )
                                     ?: "null",
                                 actorsImageUrl = actorLazyRowState.actors?.get(i) ?: "null",
-                                modifier = Modifier.padding(16.dp).clickable {
+                                modifier = Modifier.padding(top = 16.dp, start = 16.dp).clickable {
                                     navigator.navigate(
                                         ActorDetailsScreenDestination(pickedActorId),
                                     )
                                 },
                             )
-                            if (i < (movieDetailsState.movie?.principals?.size ?: 0) - 1) {
-                                Divider(
-                                    modifier = Modifier.padding(vertical = 8.dp).width(2.dp)
-                                        .fillParentMaxHeight(),
-                                )
-                            }
                         } else {
-                            Column(modifier = Modifier.padding(horizontal = 16.dp).width(200.dp)) {
+                            Column(
+                                modifier = Modifier.padding(horizontal = 16.dp).width(300.dp)
+                                    .height(175.dp)
+                                    .background(
+                                        color = Color.LightGray,
+                                        shape = RoundedCornerShape(16.dp),
+                                    ),
+                            ) {
                                 Column(modifier = Modifier.align(Alignment.CenterHorizontally)) {
                                     CircularProgressIndicator(
                                         modifier = Modifier.align(Alignment.CenterHorizontally)
@@ -133,13 +136,6 @@ fun MovieDetailsScreen(
                                     text = movieDetailsState.error,
                                     color = MaterialTheme.colors.error,
                                     fontSize = 20.sp,
-                                )
-                            }
-
-                            if (i < (movieDetailsState.movie?.principals?.size ?: 0) - 1) {
-                                Divider(
-                                    modifier = Modifier.padding(vertical = 8.dp).width(2.dp)
-                                        .fillParentMaxHeight(),
                                 )
                             }
                         }
