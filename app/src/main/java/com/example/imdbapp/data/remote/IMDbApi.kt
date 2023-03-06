@@ -13,30 +13,30 @@ interface IMDbApi {
 
     @GET("title/get-top-rated-movies")
     suspend fun getTopRatedMovies(
-        @Query("rapidapi-key") apiKey: String = ApiKey.API_KEY,
+        @Query("rapidapi-key") apiKey: String = ApiKey.API_KEY
     ): List<TopMovieDto>
 
     @GET("title/find")
     suspend fun findMovieorActor(
         @Query("q") searchQuery: String? = null,
-        @Query("rapidapi-key") apiKey: String = ApiKey.API_KEY,
+        @Query("rapidapi-key") apiKey: String = ApiKey.API_KEY
     ): SearchResultsDto
 
     @GET("title/get-overview-details")
     suspend fun getOverviewDetails(
         @Query("tconst") movieId: String? = null,
-        @Query("rapidapi-key") apiKey: String = ApiKey.API_KEY,
+        @Query("rapidapi-key") apiKey: String = ApiKey.API_KEY
     ): MovieDetailsDto
 
     @GET("actors/get-bio")
     suspend fun getActorDetails(
         @Query("nconst") actorId: String? = null,
-        @Query("rapidapi-key") apiKey: String = ApiKey.API_KEY,
+        @Query("rapidapi-key") apiKey: String = ApiKey.API_KEY
     ): ActorDetailsDto
 
     @GET("actors/get-known-for")
     suspend fun getKnownFor(
         @Query("nconst") actorId: String? = null,
-        @Query("rapidapi-key") apiKey: String = ApiKey.API_KEY,
+        @Query("rapidapi-key") apiKey: String = ApiKey.API_KEY
     ): List<KnownForDto>
 }

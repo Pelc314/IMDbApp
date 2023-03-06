@@ -23,7 +23,7 @@ fun CustomAsyncImage(
     AsyncImage(
         model = ImageRequest.Builder(LocalContext.current)
             .data(url)
-            .crossfade(500)
+            .crossfade(true)
             .build(),
         contentDescription = "Image",
         placeholder = painterResource(id = R.drawable.baseline_downloading_24),
