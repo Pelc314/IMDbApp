@@ -22,12 +22,11 @@ class TopRatedMoviesViewModel @Inject constructor(
 ) : ViewModel() {
     private var _topRatedMoviesListState = mutableStateOf(TopRatedMoviesState())
     val topRatedMoviesListState: State<TopRatedMoviesState> = _topRatedMoviesListState
+    private var _topRatedMovieState = mutableListOf(mutableStateOf(MovieItemState()))
 
-//    private var _listOfStates = mutableListOf(mutableStateOf(MovieItemState()))
-//    private var _listOfStates = mutableListOf<MovieItemState>()
-    private var _listOfStates = mutableListOf<MutableState<MovieItemState>>()
-//    val listOfMovieStates: List<MovieItemState> = _listOfStates
-    val listOfMovieStates: List<State<MovieItemState>> = _listOfStates
+    //    private var _topRatedMovieState = listOf<mutableStateOf(MovieItemState())>()
+//    val topRatedMovieState: List<State<MovieItemState>> = _topRatedMovieState
+    val topRatedMovieState: MutableList<MutableState<MovieItemState>> = _topRatedMovieState
     private val scope = CoroutineScope(Dispatchers.IO)
     private var unusuallyLongResponse: Boolean = false
 
@@ -49,14 +48,15 @@ class TopRatedMoviesViewModel @Inject constructor(
             getTopRatedMovieUseCase.getTopMovie(movieId).collect() { result ->
                 when (result) {
                     is Resource.Success -> {
-                        _listOfStates[position].value = MovieItemState(topRatedMovieItem = result.data)
+                        _topRatedMovieState[position].value =
+                            MovieItemState(topRatedMovieItem = result.data)
                     }
                     is Resource.Error -> {
-                        _listOfStates[position].value = MovieItemState(error = result.message ?: "Unexpected error!!")
+                        _topRatedMovieState[position].value =
+                            MovieItemState(error = result.message ?: "Unexpected error!!")
                     }
                     is Resource.Loading -> {
-                        _listOfStates.add(position, mutableStateOf(MovieItemState()))
-                        _listOfStates[position].value = MovieItemState(isLoading = true)
+                        _topRatedMovieState[position].value = MovieItemState(isLoading = true)
                     }
                 }
             }

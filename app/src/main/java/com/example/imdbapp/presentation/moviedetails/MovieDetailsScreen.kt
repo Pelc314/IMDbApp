@@ -52,9 +52,7 @@ fun MovieDetailsScreen(
                 Row() {
                     CustomAsyncImage(
                         url = movieDetailsState.movie?.image?.url ?: "null",
-                        modifier = Modifier
-                            .height(300.dp)
-                            .width(200.dp)
+                        modifier = Modifier.height(300.dp).width(200.dp)
                             .padding(start = 16.dp, bottom = 16.dp, top = 16.dp),
                         roundedCorner = 20.dp,
                         ContentScale.Crop,
@@ -88,11 +86,9 @@ fun MovieDetailsScreen(
                 )
                 Text(
                     text = " ${movieDetailsState.movie?.description?.text ?: "Not provided"}",
-                    modifier = Modifier
-                        .padding(start = 16.dp, bottom = 16.dp)
-                        .verticalScroll(
-                            rememberScrollState(0),
-                        ),
+                    modifier = Modifier.padding(start = 16.dp, bottom = 16.dp).verticalScroll(
+                        rememberScrollState(0),
+                    ),
                 )
                 Divider(modifier = Modifier.padding(horizontal = 16.dp))
                 LazyRow(modifier = Modifier.height(175.dp)) {
@@ -109,19 +105,15 @@ fun MovieDetailsScreen(
                                 )
                                     ?: "null",
                                 actorsImageUrl = actorLazyRowState.actors?.get(i) ?: "null",
-                                modifier = Modifier
-                                    .padding(top = 16.dp, start = 16.dp)
-                                    .clickable {
-                                        navigator.navigate(
-                                            ActorDetailsScreenDestination(pickedActorId),
-                                        )
-                                    },
+                                modifier = Modifier.padding(top = 16.dp, start = 16.dp).clickable {
+                                    navigator.navigate(
+                                        ActorDetailsScreenDestination(pickedActorId),
+                                    )
+                                },
                             )
                         } else {
                             Column(
-                                modifier = Modifier
-                                    .padding(horizontal = 16.dp)
-                                    .width(300.dp)
+                                modifier = Modifier.padding(horizontal = 16.dp).width(300.dp)
                                     .height(175.dp)
                                     .background(
                                         color = Color.LightGray,
@@ -130,8 +122,7 @@ fun MovieDetailsScreen(
                             ) {
                                 Column(modifier = Modifier.align(Alignment.CenterHorizontally)) {
                                     CircularProgressIndicator(
-                                        modifier = Modifier
-                                            .align(Alignment.CenterHorizontally)
+                                        modifier = Modifier.align(Alignment.CenterHorizontally)
                                             .padding(top = 70.dp),
                                     )
                                     Spacer(modifier = Modifier.height(10.dp))
